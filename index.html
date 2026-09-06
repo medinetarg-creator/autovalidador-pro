@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descargar AutoValidador Pro</title>
+<!--
+  ============================================================================
+  PÁGINA DE DESCARGA — AutoValidador Pro
+  ============================================================================
+  EDITÁ SOLO ESTO: las URLs reales de tus archivos (al final del <body>).
+  Buscá las etiquetas <a ... href="..."> y reemplazá:
+
+    - Windows (completa):  href="descargas/AutoValidadorPro-Instalador.exe"
+    - Windows (liviana):   href="descargas/AutoValidadorPro-Instalador-Liviano.exe"
+    - macOS:               href="descargas/AutoValidadorPro-mac.dmg"
+
+  Si los archivos viven en otra URL (Mega, Drive, tu hosting), pegá ahí el
+  link completo. El resto de la página no necesita cambios.
+  ============================================================================
+-->
+<style>
+  :root {
+    --bg: #0F1216;
+    --surface: #161B22;
+    --surface-2: #1B212B;
+    --border: #2A3140;
+    --border-strong: #38424F;
+    --ink: #E7EAEE;
+    --muted: #8B949E;
+    --accent: #2E7D5B;
+    --accent-hover: #25664A;
+    --accent-soft: rgba(46, 125, 91, 0.14);
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- top bar ---------- */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .brand .pro { color: var(--accent); }
+  .version {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+  }
+
+  /* ---------- hero ---------- */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 40px 0 14px;
+  }
+  h1 {
+    font-size: 44px;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    font-weight: 650;
+    margin: 0 0 16px;
+    max-width: 18ch;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  /* ---------- download cards ---------- */
+  .downloads {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 36px 0 14px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .card.is-detected {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, var(--accent-soft), transparent 60%), var(--surface);
+  }
+  .card .os {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 2px;
+  }
+  .card .fmt {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+  .detect-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 999px;
+    padding: 3px 10px;
+    display: none;
+  }
+  .card.is-detected .detect-badge { display: inline-block; }
+
+  .btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    color: #fff;
+    background: var(--accent);
+    border-radius: 8px;
+    padding: 13px 16px;
+    transition: background .15s ease;
+  }
+  .btn:hover { background: var(--accent-hover); }
+  .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .btn.secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border-strong);
+  }
+  .btn.secondary:hover { border-color: var(--muted); }
+
+  .link-light {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    margin-top: 12px;
+  }
+  .link-light:hover { color: var(--ink); }
+  .link-light:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .detect-line {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .detect-line strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- install steps ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 44px 0 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .step .n {
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 13px;
+  }
+  .step h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 6px 0 4px;
+  }
+  .step p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    margin: 48px 0 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 620px) {
+    h1 { font-size: 34px; }
+    .downloads, .steps { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <span class="brand">AutoValidador <span class="pro">Pro</span></span>
+      <span class="version">v1.0</span>
+    </header>
+
+    <p class="eyebrow">Descargar</p>
+    <h1>Validación de CUIL, automática.</h1>
+    <p class="sub">Chequeo de aportes (ARCA) y cobertura de obra social (SSSalud),
+    directo en tu planilla de Google Sheets.</p>
+
+    <div class="downloads">
+      <div class="card" id="card-win">
+        <span class="detect-badge">Tu sistema</span>
+        <p class="os">Windows</p>
+        <p class="fmt">Instalador · .exe · Windows 10/11</p>
+        <!-- ▼ EDITÁ: URL real del instalador COMPLETO de Windows -->
+        <a class="btn" href="descargas/AutoValidadorPro-Instalador.exe">Descargar para Windows</a>
+        <!-- ▼ EDITÁ: URL real de la versión LIVIANA (sin navegador) -->
+        <a class="link-light" href="descargas/AutoValidadorPro-Instalador-Liviano.exe">Versión liviana (descarga el navegador aparte)</a>
+      </div>
+
+      <div class="card" id="card-mac">
+        <span class="detect-badge">Tu sistema</span>
+        <p class="os">macOS</p>
+        <p class="fmt">Aplicación · .dmg · Apple Silicon / Intel</p>
+        <!-- ▼ EDITÁ: URL real de la app para macOS -->
+        <a class="btn" href="descargas/AutoValidadorPro-mac.dmg">Descargar para macOS</a>
+      </div>
+    </div>
+
+    <p class="detect-line" id="detect-line" hidden></p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="n">1</span>
+        <h2>Descargá</h2>
+        <p>Elegí la versión de tu equipo.</p>
+      </div>
+      <div class="step">
+        <span class="n">2</span>
+        <h2>Abrí el instalador</h2>
+        <p>Seguí los pasos; se instala solo.</p>
+      </div>
+      <div class="step">
+        <span class="n">3</span>
+        <h2>Configurá</h2>
+        <p>Pegá la URL de tu planilla y tu clave.</p>
+      </div>
+    </div>
+
+    <footer>
+      <span>AutoValidador Pro</span>
+      <span>¿Dudas? Escribile a tu proveedor.</span>
+    </footer>
+
+  </div>
+
+<script>
+  (function () {
+    var ua = navigator.userAgent;
+    var isWin = /Windows/i.test(ua);
+    var isMac = /Macintosh|Mac OS X/i.test(ua);
+
+    var cardWin = document.getElementById('card-win');
+    var cardMac = document.getElementById('card-mac');
+    var line = document.getElementById('detect-line');
+
+    if (isWin) {
+      cardWin.classList.add('is-detected');
+      line.hidden = false;
+      line.innerHTML = 'Tu equipo: <strong>Windows</strong> — te recomendamos esa descarga.';
+    } else if (isMac) {
+      cardMac.classList.add('is-detected');
+      line.hidden = false;
+      line.innerHTML = 'Tu equipo: <strong>macOS</strong> — te recomendamos esa descarga.';
+    }
+    // Si no se detecta (o es otro sistema), ambas opciones quedan visibles.
+  })();
+</script>
+</body>
+</html>
