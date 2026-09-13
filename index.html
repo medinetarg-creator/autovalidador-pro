@@ -223,6 +223,32 @@
   }
   .step a:hover { color: var(--ink); }
 
+  /* ---------- contact ---------- */
+  .contact {
+    margin: 36px 0 0;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .contact .title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .contact .sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 16px;
+  }
+  .btn.whatsapp {
+    display: inline-block;
+    width: auto;
+    background: #25D366;
+  }
+  .btn.whatsapp:hover { background: #1fb457; }
+
   /* ---------- footer ---------- */
   footer {
     margin: 48px 0 32px;
@@ -305,10 +331,17 @@
       </div>
     </div>
 
+    <div class="contact">
+      <p class="title">¿Dudas, presupuesto o tu clave de licencia?</p>
+      <p class="sub">Escribime y te respondo.</p>
+      <a class="btn whatsapp" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20informaci%C3%B3n%20sobre%20AutoValidador%20Pro" target="_blank" rel="noopener">💬 Escribime por WhatsApp</a>
+    </div>
+
     <footer>
       <span>AutoValidador Pro</span>
       <a class="footer-link" href="guia-instalacion.pdf" target="_blank" rel="noopener">📄 Guía de instalación</a>
-      <span>¿Dudas? Escribile a tu proveedor.</span>
+      <a class="footer-link" href="guia-uso.pdf" target="_blank" rel="noopener">📖 Manual de uso</a>
+      <a class="footer-link" href="https://wa.me/5491162192904" target="_blank" rel="noopener">💬 Contacto</a>
     </footer>
 
   </div>
