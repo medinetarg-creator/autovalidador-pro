@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Descargar AutoValidador Pro</title>
+<title>AutoValidador Pro — Validación de CUIL automática (ARCA + SSSalud)</title>
+<meta name="description" content="Chequeo de aportes (ARCA) y cobertura de obra social (SSSalud) en masa, directo en tu planilla de Google Sheets. Planes desde $39.000. Descargá para Windows o macOS.">
 <!--
   ============================================================================
-  PÁGINA DE DESCARGA — AutoValidador Pro
+  PÁGINA DE DESCARGA + PRECIOS — AutoValidador Pro
   ============================================================================
-  EDITÁ SOLO ESTO: las URLs reales de tus archivos (al final del <body>).
+  EDITÁ SOLO ESTO: las URLs reales de tus archivos (en la sección "downloads").
   Buscá las etiquetas <a ... href="..."> y reemplazá:
 
     - Windows (completa):  href="descargas/AutoValidadorPro-Instalador.exe"
@@ -17,6 +18,10 @@
 
   Si los archivos viven en otra URL (Mega, Drive, tu hosting), pegá ahí el
   link completo. El resto de la página no necesita cambios.
+
+  PRECIOS: la sección "precios" (más abajo) tiene la lista vigente. Si cambian,
+  editá los tres números de los planes, los dos de los packs y la fecha de
+  "vigentes a". Nada más.
   ============================================================================
 -->
 <style>
@@ -37,7 +42,7 @@
 
   * { box-sizing: border-box; }
 
-  html, body { margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; scroll-behavior: smooth; }
 
   body {
     background: var(--bg);
@@ -59,6 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     padding: 28px 0 24px;
     border-bottom: 1px solid var(--border);
   }
@@ -68,6 +74,13 @@
     letter-spacing: -0.01em;
   }
   .brand .pro { color: var(--accent); }
+  .head-right { display: flex; align-items: center; gap: 14px; }
+  .nav-link {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .nav-link:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
   .version {
     font-family: var(--mono);
     font-size: 12px;
@@ -223,6 +236,255 @@
   }
   .step a:hover { color: var(--ink); }
 
+  /* ---------- pricing ---------- */
+  .pricing {
+    margin: 56px 0 0;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+  .pricing h2 {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 650;
+    margin: 0 0 10px;
+  }
+  .pricing .lede {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 52ch;
+    margin: 0 0 28px;
+  }
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+  .plan {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .plan.featured {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, var(--accent-soft), transparent 55%), var(--surface);
+  }
+  .plan .tag {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 999px;
+    padding: 3px 10px;
+  }
+  .plan .name {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px;
+  }
+  .plan .vol {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 18px;
+  }
+  .plan .price {
+    font-size: 32px;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin: 0 0 4px;
+  }
+  .plan .price small {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0;
+  }
+  .plan .unit {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 18px;
+  }
+  .plan ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 22px;
+    flex: 1;
+  }
+  .plan li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 9px;
+  }
+  .plan li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 13px;
+  }
+  .plan li strong { color: var(--ink); font-weight: 600; }
+
+  .packs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0 0;
+  }
+  .pack {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .pack .p-name { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
+  .pack .p-note { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0; }
+  .pack .p-price { font-size: 22px; font-weight: 650; letter-spacing: -0.02em; white-space: nowrap; }
+
+  .addon {
+    margin: 16px 0 0;
+    padding: 20px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .addon .a-name { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
+  .addon .a-note { font-size: 14px; color: var(--muted); margin: 0; max-width: 46ch; }
+  .addon .a-price { font-size: 22px; font-weight: 650; letter-spacing: -0.02em; white-space: nowrap; }
+
+  .unit-note {
+    margin: 20px 0 0;
+    padding: 20px 24px;
+    border-left: 2px solid var(--accent);
+    background: var(--surface-2);
+    border-radius: 0 10px 10px 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .unit-note strong { color: var(--ink); font-weight: 600; }
+  .unit-note .un-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+  .unit-note .un-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .unit-note .un-steps li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .unit-note .un-steps li:last-child { margin-bottom: 0; }
+  .unit-note .un-steps li .n {
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+  .unit-note .un-foot {
+    margin: 16px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .data-note {
+    margin: 12px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 68ch;
+  }
+  .data-note strong { color: var(--ink); font-weight: 600; }
+
+  .why {
+    margin: 36px 0 0;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .why h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
+  .why table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .why th, .why td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .why th {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .why td:last-child, .why th:last-child { text-align: right; }
+  .why tbody tr:last-child td { border-bottom: none; }
+  .why td.hl { color: var(--ink); font-weight: 600; }
+  .why tr.best td { color: var(--ink); }
+  .why tr.best td.hl { color: var(--accent); }
+  .why .foot {
+    margin: 16px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .alta {
+    margin: 16px 0 0;
+    padding: 20px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .alta .title { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
+  .alta p { font-size: 14px; color: var(--muted); margin: 0; }
+  .alta .price { color: var(--ink); font-weight: 600; }
+
+  .fineprint {
+    margin: 18px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
   /* ---------- contact ---------- */
   .contact {
     margin: 36px 0 0;
@@ -268,13 +530,22 @@
   footer a.footer-link:hover { color: var(--ink); text-decoration: underline; }
   footer a.footer-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
+  @media (max-width: 760px) {
+    .plans { grid-template-columns: 1fr; }
+  }
+
   @media (max-width: 620px) {
     h1 { font-size: 34px; }
-    .downloads, .steps { grid-template-columns: 1fr; }
+    .pricing h2 { font-size: 26px; }
+    .downloads, .steps, .packs { grid-template-columns: 1fr; }
+    .plan .price { font-size: 28px; }
+    .why table { font-size: 13px; }
+    .why th, .why td { padding: 8px 6px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
+    html, body { scroll-behavior: auto; }
   }
 </style>
 </head>
@@ -283,7 +554,10 @@
 
     <header>
       <span class="brand">AutoValidador <span class="pro">Pro</span></span>
-      <span class="version">v1.0</span>
+      <span class="head-right">
+        <a class="nav-link" href="#precios">Precios</a>
+        <span class="version">v1.0</span>
+      </span>
     </header>
 
     <p class="eyebrow">Descargar</p>
@@ -331,6 +605,132 @@
       </div>
     </div>
 
+    <!-- ===================== PRECIOS ===================== -->
+    <section class="pricing" id="precios">
+      <p class="eyebrow">Precios</p>
+      <h2>Planes mensuales, sin permanencia.</h2>
+      <p class="lede">Se paga mes a mes, por adelantado. Podés cambiar de plan o darlo de baja
+      cuando quieras. Cada plan incluye la aplicación, las actualizaciones y soporte por WhatsApp.</p>
+
+      <div class="plans">
+        <div class="plan featured">
+          <span class="tag">Más elegido</span>
+          <p class="name">Asesor</p>
+          <p class="vol">10.000 verificaciones / mes</p>
+          <p class="price">$149.000 <small>/mes</small></p>
+          <p class="unit">$14,9 por verificación</p>
+          <ul>
+            <li><strong>10.000 verificaciones completas</strong> por mes</li>
+            <li>Tu propia planilla de Google Sheets</li>
+            <li>1 equipo</li>
+            <li>Panel de crédito: ves cuántas te quedan</li>
+            <li>Reintentos automáticos y resultados definitivos</li>
+            <li>Verificación extra: <strong>$15.000</strong> por 1.000</li>
+          </ul>
+          <a class="btn" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20contratar%20el%20Plan%20Asesor%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Contratar Asesor</a>
+        </div>
+
+        <div class="plan">
+          <p class="name">Broker</p>
+          <p class="vol">40.000 verificaciones / mes</p>
+          <p class="price">$429.000 <small>/mes</small></p>
+          <p class="unit">$10,7 por verificación</p>
+          <ul>
+            <li><strong>40.000 verificaciones completas</strong> por mes</li>
+            <li>Planilla propia + <strong>importador de Excel</strong> con asistente</li>
+            <li>Hasta 3 equipos con la misma clave (comparten el cupo del plan)</li>
+            <li>Pestañas listas: APTOS, POR OS, POR PREPAGA</li>
+            <li>Reintentos automáticos y resultados definitivos</li>
+            <li>Verificación extra: <strong>$11.000</strong> por 1.000</li>
+          </ul>
+          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20contratar%20el%20Plan%20Broker%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Contratar Broker</a>
+        </div>
+
+        <div class="plan">
+          <p class="name">Corporativo</p>
+          <p class="vol">100.000 verificaciones / mes</p>
+          <p class="price">$890.000 <small>/mes</small></p>
+          <p class="unit">$8,9 por verificación</p>
+          <ul>
+            <li><strong>100.000 verificaciones completas</strong> por mes</li>
+            <li>Hasta 10 equipos con la misma clave (comparten el cupo del plan)</li>
+            <li>Importador de Excel y plantillas listas</li>
+            <li>Prioridad en el soporte</li>
+            <li>Reintentos automáticos y resultados definitivos</li>
+            <li>Verificación extra: <strong>$8.500</strong> por 1.000</li>
+          </ul>
+          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20contratar%20el%20Plan%20Corporativo%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Contratar Corporativo</a>
+        </div>
+      </div>
+
+      <div class="packs">
+        <div class="pack">
+          <div>
+            <p class="p-name">Pack de prueba · 1.000 verificaciones</p>
+            <p class="p-note">Prepago · no vence · $39 por verificación</p>
+          </div>
+          <span class="p-price">$39.000</span>
+        </div>
+        <div class="pack">
+          <div>
+            <p class="p-name">Pack · 5.000 verificaciones</p>
+            <p class="p-note">Prepago · no vence · $33,8 por verificación</p>
+          </div>
+          <span class="p-price">$169.000</span>
+        </div>
+      </div>
+
+      <div class="unit-note">
+        <p class="un-title">Verificación en dos etapas</p>
+        <ol class="un-steps">
+          <li><span class="n">01</span><strong>ARCA</strong> — Estado de los aportes
+          y relación de dependencia.</li>
+          <li><span class="n">02</span><strong>SSSalud</strong> — cobertura actual del afiliado,
+          únicamente para los casos habilitados en la primera etapa.</li>
+        </ol>
+        <p class="un-foot">Se contabiliza sólo la verificación completada en ambas fuentes.
+        Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
+      </div>
+
+      <p class="data-note">
+        <strong>Actualización de los datos:</strong> la información proviene de ARCA y de ANSES y
+        se actualiza según los plazos de publicación de cada organismo. Al momento del chequeo,
+        los datos pueden estar desactualizados.
+      </p>
+
+      <div class="why">
+        <h3>¿Por qué se paga solo?</h3>
+        <table>
+          <thead>
+            <tr><th>Verificar 10.000 casos</th><th>Costo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>A mano, caso por caso, en ARCA y SSSalud (con captcha)</td><td>167 a 500 horas de trabajo</td></tr>
+            <tr><td>Un administrativo dedicado a esa tarea</td><td>$737.399 / mes</td></tr>
+            <tr><td>Informe comercial del mercado con datos laborales</td><td>$15.000 a $20.800 por consulta, con tope de 3.000 por mes</td></tr>
+            <tr class="best"><td class="hl">AutoValidador Pro — Plan Asesor</td><td class="hl">$149.000 / mes · 10.000 verificaciones</td></tr>
+          </tbody>
+        </table>
+        <p class="foot">El cálculo a mano considera 1 a 3 minutos por caso entre las dos fuentes,
+        a un costo horario de $4.609 a $6.222 (administrativo, agosto 2026).</p>
+      </div>
+
+      <div class="alta">
+        <p class="title">Alta e implementación — <span class="price">$250.000</span> por única vez</p>
+        <p>Instalación remota, copia y configuración de tu plantilla en tu propia cuenta de Google,
+        carga de tu primera base y capacitación por videollamada. Incluye acompañamiento los primeros 30 días.</p>
+      </div>
+
+      <p class="fineprint">Precios en pesos, vigentes a septiembre de 2026, más IVA cuando corresponda.
+      Se actualizan trimestralmente. Cada verificación incluye el chequeo en ARCA y, cuando
+      corresponde, el de SSSalud. El pack prepago no vence; el cupo de los planes mensuales no se
+      acumula de un mes al otro. Los equipos de un mismo plan comparten el cupo.
+      La información consultada es la publicada por ARCA y por ANSES, y se actualiza según los
+      plazos de cada organismo: puede estar desactualizada al momento del chequeo. AutoValidador Pro
+      no genera, no modifica ni corrige esos datos.</p>
+    </section>
+    <!-- =================== FIN PRECIOS =================== -->
+
     <div class="contact">
       <p class="title">¿Dudas, presupuesto o tu clave de licencia?</p>
       <p class="sub">Escribime y te respondo.</p>
@@ -339,6 +739,7 @@
 
     <footer>
       <span>AutoValidador Pro</span>
+      <a class="footer-link" href="#precios">Precios</a>
       <a class="footer-link" href="guia-instalacion.pdf" target="_blank" rel="noopener">📄 Guía de instalación</a>
       <a class="footer-link" href="guia-uso.pdf" target="_blank" rel="noopener">📖 Manual de uso</a>
       <a class="footer-link" href="https://wa.me/5491162192904" target="_blank" rel="noopener">💬 Contacto</a>
