@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AutoValidador Pro — Validación de CUIL automática (ARCA + SSSalud)</title>
-<meta name="description" content="Chequeo de aportes (ARCA) y cobertura de obra social (SSSalud) en masa, directo en tu planilla de Google Sheets. Probá gratis 20 CUILs, sin clave. Planes desde $39.000. Descargá para Windows o macOS.">
+<meta name="description" content="Validación de CUIL en masa para brokers y asesores de obras sociales: chequeo de aportes (ARCA) y cobertura (SSSalud) sobre tu propia planilla de Google Sheets. Probá 20 casos gratis, sin clave. Planes desde $39.000.">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="192x192" href="icono-192.png">
 <link rel="apple-touch-icon" href="icono-192.png">
@@ -145,7 +145,12 @@
   .card .fmt {
     font-family: var(--mono);
     font-size: 12px;
+    line-height: 1.5;
     color: var(--muted);
+    /* Dos líneas reservadas: el texto de macOS ("Apple Silicon (M1 o posterior)")
+       es más largo que el de Windows y, al envolver, empujaba su botón más abajo.
+       Reservando la altura, los dos botones quedan a la misma altura. */
+    min-height: 3em;
     margin: 0 0 22px;
   }
   .detect-badge {
@@ -420,6 +425,16 @@
     font-size: 14px;
     color: var(--ink);
   }
+  .unit-note .un-body {
+    margin: 0 0 18px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .unit-note .un-body + .btn { margin-top: 0; }
+  /* El bloque de cierre va centrado: título, texto y botón */
+  #demo { text-align: center; }
+  #demo .btn.whatsapp { display: inline-block; margin: 0 auto; }
   .data-note {
     margin: 12px 0 0;
     font-size: 13px;
@@ -488,31 +503,215 @@
     color: var(--muted);
   }
 
-  /* ---------- contact ---------- */
-  .contact {
-    margin: 36px 0 0;
-    padding: 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    text-align: center;
-  }
-  .contact .title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 4px;
-  }
-  .contact .sub {
-    color: var(--muted);
-    font-size: 14px;
-    margin: 0 0 16px;
-  }
   .btn.whatsapp {
     display: inline-block;
     width: auto;
     background: #25D366;
   }
   .btn.whatsapp:hover { background: #1fb457; }
+
+  /* ---------- para quién es ---------- */
+  .forwho {
+    margin: 40px 0 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .forwho h2 {
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px;
+  }
+  .forwho-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .forwho-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  .forwho-box h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+  .forwho-box.yes h3 { color: var(--accent); }
+  .forwho-box.no h3 { color: var(--muted); }
+  .forwho-box ul { list-style: none; padding: 0; margin: 0; }
+  .forwho-box li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 9px;
+  }
+  .forwho-box li:last-child { margin-bottom: 0; }
+  .forwho-box.yes li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 13px;
+  }
+  .forwho-box.no li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .forwho-box li strong { color: var(--ink); font-weight: 600; }
+  .forwho .who-foot {
+    margin: 16px 0 0;
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 68ch;
+  }
+  .forwho .who-foot strong { color: var(--ink); font-weight: 600; }
+  .forwho .who-foot a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+  .forwho .who-foot a:hover { color: var(--ink); }
+
+  /* ---------- descargas (bloque de cierre) ---------- */
+  .download {
+    margin: 56px 0 0;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+  .download h2 {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 650;
+    margin: 0 0 10px;
+  }
+  .download .lede {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 52ch;
+    margin: 0 0 28px;
+  }
+  .download .unit-note { margin-top: 36px; }
+  .wa-note {
+    margin: 14px 0 0;
+    font-size: 12.5px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .wa-note a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .wa-note a:hover { color: var(--ink); }
+
+  /* ---------- mecanismo (bloque 4) ---------- */
+  .metodo {
+    margin: 56px 0 0;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+  .metodo h2 {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 650;
+    margin: 0 0 10px;
+  }
+  .metodo .lede {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 52ch;
+    margin: 0 0 28px;
+  }
+  .metodo .mecanismo { margin-top: 0; }
+  .mecanismo {
+    margin: 16px 0 0;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+  }
+  .mecanismo .m-steps { list-style: none; padding: 0; margin: 0 0 16px; }
+  .mecanismo .m-steps li {
+    position: relative;
+    padding-left: 28px;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .mecanismo .m-steps li:last-child { margin-bottom: 0; }
+  .mecanismo .m-steps li .n {
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+  .mecanismo .m-steps li strong { color: var(--ink); font-weight: 600; }
+  .mecanismo .m-foot {
+    margin: 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .m-diff {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 18px 0 0;
+  }
+  .m-diff div {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .m-diff strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  /* ---------- oferta (bloque 5) ---------- */
+  .oferta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 16px 0 0;
+  }
+  .o-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  .o-card .o-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+  .o-card h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .o-card p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0;
+  }
+  .o-card p strong { color: var(--ink); font-weight: 600; }
 
   /* ---------- footer ---------- */
   footer {
@@ -535,11 +734,18 @@
 
   @media (max-width: 760px) {
     .plans { grid-template-columns: 1fr; }
+    /* La oferta pasa de 3 a 2 columnas antes de apilarse: a 3 se hacían muy altas */
+    .oferta { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 620px) {
     h1 { font-size: 34px; }
     .pricing h2 { font-size: 26px; }
+    .download h2 { font-size: 26px; }
+    .metodo h2 { font-size: 26px; }
+    .forwho-grid { grid-template-columns: 1fr; }
+    .m-diff { grid-template-columns: 1fr; }
+    .oferta { grid-template-columns: 1fr; }
     .downloads, .steps, .packs { grid-template-columns: 1fr; }
     .plan .price { font-size: 28px; }
     .why table { font-size: 13px; }
@@ -559,68 +765,79 @@
       <span class="brand">AutoValidador <span class="pro">Pro</span></span>
       <span class="head-right">
         <a class="nav-link" href="#precios">Precios</a>
+        <a class="nav-link" href="#descargar">Descargar</a>
         <span class="version">v1.2.1</span>
       </span>
     </header>
 
-    <p class="eyebrow">Descargar</p>
-    <h1>Validación de CUIL, automática.</h1>
-    <p class="sub">Chequeo de aportes (ARCA) y cobertura de obra social (SSSalud),
-    directo en tu planilla de Google Sheets.</p>
+    <p class="eyebrow">Para brokers y asesores de obras sociales</p>
+    <h1>Validación de CUIL, en horas y no en semanas.</h1>
+    <p class="sub">Chequeo de aportes (<strong>ARCA</strong>) y cobertura de obra social
+    (<strong>SSSalud</strong>) sobre <strong>tu propia planilla</strong> de Google Sheets: cargás
+    los casos una vez y se verifican solos, sin captcha y sin tipeo. Los 10.000 que a un
+    administrativo le llevan de 167 a 500 horas de trabajo.</p>
 
-    <div class="downloads">
-      <div class="card" id="card-win">
-        <span class="detect-badge">Tu sistema</span>
-        <p class="os">Windows</p>
-        <p class="fmt">Instalador · .exe · Windows 10/11</p>
-        <!-- Link permanente: siempre entrega la última versión publicada -->
-        <a class="btn" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-Instalador.exe">Descargar para Windows</a>
-        <a class="link-light" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-Instalador-Liviano.exe">Versión liviana (descarga el navegador aparte)</a>
+    <section class="forwho">
+      <h2>¿Es para vos?</h2>
+      <div class="forwho-grid">
+        <div class="forwho-box yes">
+          <h3>Es para vos si…</h3>
+          <ul>
+            <li>Sos <strong>broker, asesor o supervisor de obras sociales</strong> y trabajás en AMBA.</li>
+            <li>Verificás aportes y cobertura de <strong>miles de casos por mes</strong>: para armar los aptos, cargar una base nueva o controlar una cartera.</li>
+            <li>Hoy lo hacés a mano en ARCA y SSSalud, <strong>de a un caso por vez y con captcha</strong>, y el trabajo se te acumula.</li>
+            <li>Tenés los datos en una <strong>planilla compartida</strong> y querés que el resultado caiga ahí, no en un sistema nuevo que hay que aprender.</li>
+          </ul>
+        </div>
+        <div class="forwho-box no">
+          <h3>No es para vos si…</h3>
+          <ul>
+            <li>Necesitás <strong>diez o veinte casos sueltos por mes</strong>: a mano te sale más barato, y te lo decimos igual.</li>
+            <li>Buscás un <strong>sistema de gestión médico</strong> (turnos, historia clínica, facturación): esto verifica y escribe en tu planilla, nada más.</li>
+            <li>Necesitás <strong>situación financiera o scoring</strong> de los afiliados: acá se mira aportes y cobertura de obra social.</li>
+            <li>Buscás datos que <strong>no estén publicados por ARCA o ANSES</strong>: acá se consulta lo que publican los organismos; no se genera, no se corrige ni se inventa.</li>
+          </ul>
+        </div>
       </div>
+      <p class="who-foot">Y esto es lo que ya intentaste: un administrativo dedicado al tipeo cuesta
+      <strong>$737.399 por mes</strong>, y un informe comercial del mercado sale
+      <strong>$15.000 a $20.800 por consulta, con tope de 3.000 por mes</strong>.
+      La cuenta completa está más abajo, en <a href="#precios">precios</a>.</p>
+    </section>
 
-      <div class="card" id="card-mac">
-        <span class="detect-badge">Tu sistema</span>
-        <p class="os">macOS</p>
-        <p class="fmt">Aplicación · .dmg · Apple Silicon (M1 o posterior)</p>
-        <!-- Link permanente: siempre entrega la última versión publicada -->
-        <a class="btn" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-mac.dmg">Descargar para macOS</a>
-        <a class="link-light" href="https://wa.me/5491162192904?text=Hola!%20Tengo%20una%20Mac%20con%20chip%20Intel%20y%20necesito%20AutoValidador%20Pro" target="_blank" rel="noopener">¿Tu Mac es Intel? Escribinos</a>
+    <!-- ===================== MÉTODO ===================== -->
+    <section class="metodo" id="metodo">
+      <p class="eyebrow">Cómo funciona</p>
+      <h2>Método Dos Etapas</h2>
+      <p class="lede">Dos etapas, en ese orden: primero ARCA, y SSSalud sólo se consulta
+      para los casos que la primera etapa habilita.</p>
+
+      <div class="mecanismo">
+        <ol class="m-steps">
+          <li><span class="n">01</span><strong>ARCA</strong> — estado de los aportes
+          y relación de dependencia.</li>
+          <li><span class="n">02</span><strong>SSSalud</strong> — cobertura actual del afiliado,
+          únicamente para los casos habilitados en la primera etapa.</li>
+        </ol>
+        <p class="m-foot">Se contabiliza sólo la verificación completada en ambas fuentes.
+        Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
+        <div class="m-diff">
+          <div>
+            <strong>No competimos por el dato.</strong>
+            Los datos son públicos y oficiales. Lo que se paga es el tiempo de conseguirlos.
+          </div>
+          <div>
+            <strong>El descarte no te cuesta.</strong>
+            Un caso que no pasa la primera etapa no consume nada de tu plan.
+          </div>
+          <div>
+            <strong>Corre solo, en continuo.</strong>
+            Sin captcha, sin tipear y sin abrir el navegador: escribe el resultado en tu planilla.
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="unit-note" id="demo">
-      <p class="un-title">Probalo gratis, con tus propios datos y sin hablar con nadie</p>
-      <ol class="un-steps">
-        <li><span class="n">01</span>Descargá la aplicación y pegá la dirección de tu planilla de Google Sheets.</li>
-        <li><span class="n">02</span>Validá <strong>20 CUILs</strong> del estado de aportes (ARCA): sin clave, sin tarjeta y sin pedirnos nada.</li>
-        <li><span class="n">03</span>Los resultados se escriben en tu planilla, con tus afiliados. Para el chequeo de obra social y para validar sin límite, te damos la clave.</li>
-      </ol>
-    </div>
-
-    <p style="color: var(--muted); font-size: 12.5px; text-align: center; margin: 14px 0 0;">
-      ¿La descarga no te anda o preferís otro enlace?
-      <a style="color: var(--muted); text-decoration: underline;" href="https://wa.me/5491162192904?text=Hola!%20Necesito%20un%20enlace%20alternativo%20para%20descargar%20AutoValidador%20Pro" target="_blank" rel="noopener">Escribinos por WhatsApp</a>.
-    </p>
-
-    <p class="detect-line" id="detect-line" hidden></p>
-
-    <div class="steps">
-      <div class="step">
-        <span class="n">1</span>
-        <h2>Descargá</h2>
-        <p>Elegí la versión de tu equipo.</p>
-      </div>
-      <div class="step">
-        <span class="n">2</span>
-        <h2>Abrí el instalador</h2>
-        <p>Seguí los pasos; se instala solo.</p>
-      </div>
-      <div class="step">
-        <span class="n">3</span>
-        <h2>Configurá</h2>
-        <p>Seguí los pasos de esta <a href="guia-instalacion.pdf" target="_blank" rel="noopener">guía de instalación</a>.</p>
-      </div>
-    </div>
+    </section>
+    <!-- =================== FIN MÉTODO =================== -->
 
     <!-- ===================== PRECIOS ===================== -->
     <section class="pricing" id="precios">
@@ -628,7 +845,8 @@
       <h2>Planes mensuales, sin permanencia.</h2>
       <p class="lede">Se paga mes a mes, por adelantado. Podés cambiar de plan o darlo de baja
       cuando quieras. Cada plan incluye la aplicación, las actualizaciones y soporte por WhatsApp.
-      <strong>¿Querés probarlo antes de pagar?</strong> La demo valida 20 CUILs gratis, sin clave.</p>
+      <strong>¿Querés probarlo antes de pagar?</strong> Bajá la demo y corré 20 casos gratis,
+      sin clave: está más abajo, en <a href="#descargar">Descargar</a>.</p>
 
       <div class="plans">
         <div class="plan featured">
@@ -698,17 +916,6 @@
         </div>
       </div>
 
-      <div class="unit-note">
-        <p class="un-title">Verificación en dos etapas</p>
-        <ol class="un-steps">
-          <li><span class="n">01</span><strong>ARCA</strong> — Estado de los aportes
-          y relación de dependencia.</li>
-          <li><span class="n">02</span><strong>SSSalud</strong> — cobertura actual del afiliado,
-          únicamente para los casos habilitados en la primera etapa.</li>
-        </ol>
-        <p class="un-foot">Se contabiliza sólo la verificación completada en ambas fuentes.
-        Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
-      </div>
 
       <p class="data-note">
         <strong>Actualización de los datos:</strong> la información proviene de ARCA y de ANSES y
@@ -739,6 +946,27 @@
         carga de tu primera base y capacitación por videollamada. Incluye acompañamiento los primeros 30 días.</p>
       </div>
 
+      <div class="oferta">
+        <div class="o-card">
+          <p class="o-tag">Garantía</p>
+          <h4>Pagás sólo lo que se completa</h4>
+          <p>La unidad es la <strong>verificación completada</strong>. Si un caso se descarta en la
+          primera etapa, no te consume cupo: nunca pagás un intento.</p>
+        </div>
+        <div class="o-card">
+          <p class="o-tag">Sin vencimiento</p>
+          <h4>El pack prepago no vence</h4>
+          <p>Las verificaciones que comprás quedan tuyas hasta que las uses.
+          No hay que gastarlas dentro del mes.</p>
+        </div>
+        <div class="o-card">
+          <p class="o-tag">Vigencia</p>
+          <h4>Estos precios, hasta la revisión de diciembre</h4>
+          <p>La lista se revisa trimestralmente, atada al dólar. El precio del plan que
+          contratás <strong>se mantiene</strong> mientras el plan esté activo.</p>
+        </div>
+      </div>
+
       <p class="fineprint">Precios en pesos, vigentes a septiembre de 2026, más IVA cuando corresponda.
       Se actualizan trimestralmente. Cada verificación incluye el chequeo en ARCA y, cuando
       corresponde, el de SSSalud. El pack prepago no vence; el cupo de los planes mensuales no se
@@ -749,18 +977,73 @@
     </section>
     <!-- =================== FIN PRECIOS =================== -->
 
-    <div class="contact">
-      <p class="title">¿Dudas, presupuesto o tu clave de licencia?</p>
-      <p class="sub">Escribime y te respondo.</p>
-      <a class="btn whatsapp" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20informaci%C3%B3n%20sobre%20AutoValidador%20Pro" target="_blank" rel="noopener">💬 Escribime por WhatsApp</a>
+    <!-- ===================== DESCARGAS + DEMO ===================== -->
+    <section class="download" id="descargar">
+      <p class="eyebrow">Demo gratuita</p>
+      <h2>Descargalo y probalo con tus propios datos.</h2>
+      <p class="lede">Validá 20 casos contra ARCA con la planilla que ya usás: sin clave,
+      sin tarjeta y sin hablar con nadie. Se instala en un minuto.</p>
+
+    <div class="downloads">
+      <div class="card" id="card-win">
+        <span class="detect-badge">Tu sistema</span>
+        <p class="os">Windows</p>
+        <p class="fmt">Instalador · .exe · Windows 10/11</p>
+        <!-- Link permanente: siempre entrega la última versión publicada -->
+        <a class="btn" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-Instalador.exe">Descargar para Windows</a>
+        <a class="link-light" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-Instalador-Liviano.exe">Versión liviana (descarga el navegador aparte)</a>
+      </div>
+
+      <div class="card" id="card-mac">
+        <span class="detect-badge">Tu sistema</span>
+        <p class="os">macOS</p>
+        <p class="fmt">Aplicación · .dmg · Apple Silicon (M1 o posterior)</p>
+        <!-- Link permanente: siempre entrega la última versión publicada -->
+        <a class="btn" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-mac.dmg">Descargar para macOS</a>
+        <a class="link-light" href="https://wa.me/5491162192904?text=Hola!%20Tengo%20una%20Mac%20con%20chip%20Intel%20y%20necesito%20AutoValidador%20Pro" target="_blank" rel="noopener">¿Tu Mac es Intel? Escribinos</a>
+      </div>
     </div>
+
+    <p class="detect-line" id="detect-line" hidden></p>
+
+    <p class="wa-note">¿La descarga no te anda o preferís otro enlace?
+      <a href="https://wa.me/5491162192904?text=Hola!%20Necesito%20un%20enlace%20alternativo%20para%20descargar%20AutoValidador%20Pro" target="_blank" rel="noopener">Escribinos por WhatsApp</a>.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="n">1</span>
+        <h2>Descargá</h2>
+        <p>Elegí la versión de tu equipo.</p>
+      </div>
+      <div class="step">
+        <span class="n">2</span>
+        <h2>Abrí el instalador</h2>
+        <p>Seguí los pasos; se instala solo.</p>
+      </div>
+      <div class="step">
+        <span class="n">3</span>
+        <h2>Configurá</h2>
+        <p>Seguí los pasos de esta <a href="guia-instalacion.pdf" target="_blank" rel="noopener">guía de instalación</a>.</p>
+      </div>
+    </div>
+
+
+    <div class="unit-note" id="demo">
+      <p class="un-title">¿Dudas, o se te acabaron las 20 de la demo?</p>
+      <p class="un-body">Escribime por WhatsApp: te paso la clave para seguir sin límite, o te
+      armo el presupuesto para tu cartera.</p>
+      <a class="btn whatsapp" href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20consultarte" target="_blank" rel="noopener">💬 Escribime por WhatsApp</a>
+    </div>
+    </section>
+    <!-- =================== FIN DESCARGAS =================== -->
+
 
     <footer>
       <span>AutoValidador Pro</span>
       <a class="footer-link" href="#precios">Precios</a>
       <a class="footer-link" href="guia-instalacion.pdf" target="_blank" rel="noopener">📄 Guía de instalación</a>
       <a class="footer-link" href="guia-uso.pdf" target="_blank" rel="noopener">📖 Manual de uso</a>
-      <a class="footer-link" href="https://wa.me/5491162192904" target="_blank" rel="noopener">💬 Contacto</a>
+      <a class="footer-link" href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20consultarte" target="_blank" rel="noopener">💬 Contacto</a>
     </footer>
 
   </div>
