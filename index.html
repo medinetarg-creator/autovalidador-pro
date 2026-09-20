@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoValidador Pro — Validación de CUIL automática (ARCA + SSSalud)</title>
-<meta name="description" content="Validación de CUIL en masa para brokers y asesores de obras sociales: chequeo de aportes (ARCA) y cobertura (SSSalud) sobre tu propia planilla de Google Sheets. Probá 20 casos gratis, sin clave. Planes desde $39.000.">
+<title>AutoValidador Pro — Procesá miles de CUIL en una jornada (ARCA + SSSalud)</title>
+<meta name="description" content="Automatización de validaciones para equipos comerciales de salud: verificá miles de CUIL en una jornada, sin ampliar tu equipo. Aportes en ARCA y cobertura en SSSalud y los resultados quedan en una planilla de Google Sheets. Probá 20 casos gratis, sin clave.">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="192x192" href="icono-192.png">
 <link rel="apple-touch-icon" href="icono-192.png">
@@ -732,6 +732,95 @@
   footer a.footer-link:hover { color: var(--ink); text-decoration: underline; }
   footer a.footer-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
+  /* ---------- bloques nuevos del reposicionamiento ---------- */
+  .sub-hero {
+    margin: 14px 0 0;
+    color: var(--ink);
+    font-size: 16px;
+    max-width: 52ch;
+  }
+  .bloque {
+    margin: 56px 0 0;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+  .bloque > h2 {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 650;
+    margin: 0 0 10px;
+  }
+  .prob-grid, .cap-strip, .obj-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+  .prob-item, .cap-item, .obj-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+  }
+  .prob-item .p-t, .obj-item .o-q {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  .prob-item h3 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 8px;
+  }
+  .prob-item p:last-child, .obj-item p:last-child {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+  }
+  .cap-item .c-v {
+    display: block;
+    font-family: var(--mono);
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0 0 6px;
+  }
+  .cap-item .c-n {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .no-datos {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 26px 28px;
+    margin: 0 0 20px;
+  }
+  .no-datos h2 {
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 650;
+    margin: 0 0 12px;
+  }
+  .no-datos p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 10px;
+    max-width: 62ch;
+  }
+  .no-datos p:last-child { margin-bottom: 0; }
+
   @media (max-width: 760px) {
     .plans { grid-template-columns: 1fr; }
     /* La oferta pasa de 3 a 2 columnas antes de apilarse: a 3 se hacían muy altas */
@@ -745,6 +834,8 @@
     .metodo h2 { font-size: 26px; }
     .forwho-grid { grid-template-columns: 1fr; }
     .m-diff { grid-template-columns: 1fr; }
+    .prob-grid, .cap-strip, .obj-grid { grid-template-columns: 1fr; }
+    .bloque > h2 { font-size: 26px; }
     .oferta { grid-template-columns: 1fr; }
     .downloads, .steps, .packs { grid-template-columns: 1fr; }
     .plan .price { font-size: 28px; }
@@ -756,6 +847,35 @@
     * { transition: none !important; }
     html, body { scroll-behavior: auto; }
   }
+
+    /* ================= HERO CENTRADO ================= */
+    .hero { text-align: center; padding: 6px 0 2px; }
+    .hero .eyebrow { margin: 30px 0 16px; }
+    .hero h1 { margin: 0 auto 18px; max-width: 22ch; }
+    .hero .sub { margin: 0 auto; max-width: 56ch; }
+    .hero .sub-hero { margin: 16px auto 0; max-width: 46ch; }
+
+    /* ================= BENEFICIOS CLAVE (arriba) ================= */
+    .beneficios { margin: 34px 0 0; }
+    .beneficios ul { list-style: none; padding: 0; margin: 0; display: grid;
+                     grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .beneficios li { background: var(--surface); border: 1px solid var(--border);
+                     border-radius: 12px; padding: 16px 16px 15px; }
+    .beneficios .b-ico { display: inline-flex; width: 34px; height: 34px; border-radius: 9px;
+                         background: var(--accent-soft); color: var(--accent);
+                         align-items: center; justify-content: center; margin-bottom: 11px; }
+    .beneficios b { display: block; font-size: 14.5px; margin-bottom: 5px; color: var(--ink); }
+    .beneficios p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+    @media (max-width: 900px) { .beneficios ul { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .beneficios ul { grid-template-columns: 1fr; } }
+
+    /* ================= CORTE ANTES DEL DETALLE ================= */
+    .detalle-corte { margin: 58px 0 0; padding-top: 38px; border-top: 1px solid var(--border-strong);
+                     text-align: center; }
+    .detalle-corte .eyebrow { margin: 0 0 12px; }
+    .detalle-corte h2 { margin: 0 0 12px; }
+    .detalle-corte .lede { margin: 0 auto; }
+    .detalle-corte + .bloque { border-top: 0; padding-top: 0; margin-top: 40px; }
 </style>
 </head>
 <body>
@@ -770,76 +890,32 @@
       </span>
     </header>
 
-    <p class="eyebrow">Para brokers y asesores de obras sociales</p>
-    <h1>Validación de CUIL, en horas y no en semanas.</h1>
-    <p class="sub">Chequeo de aportes (<strong>ARCA</strong>) y cobertura de obra social
-    (<strong>SSSalud</strong>) sobre <strong>tu propia planilla</strong> de Google Sheets: cargás
-    los casos una vez y se verifican solos, sin captcha y sin tipeo. Los 10.000 que a un
-    administrativo le llevan de 167 a 500 horas de trabajo.</p>
+    <div class="hero">
+      <p class="eyebrow">Para brokers, asesores y supervisores comerciales de salud</p>
+      <h1>Procesá miles de CUIL en una jornada sin ampliar tu equipo.</h1>
+      <p class="sub">AutoValidador Pro verifica <strong>aportes en ARCA</strong> y
+      <strong>cobertura en SSSalud</strong> solo, sin captcha y sin tipeo, y escribe todo en una
+      planilla de Google Sheets que <strong>te dejamos armada</strong>. Si trabajás en Excel,
+      la importás.</p>
+      <p class="sub-hero"><strong>Menos trabajo manual. Más capacidad para procesar bases
+      completas.</strong></p>
+    </div>
 
-    <section class="forwho">
-      <h2>¿Es para vos?</h2>
-      <div class="forwho-grid">
-        <div class="forwho-box yes">
-          <h3>Es para vos si…</h3>
-          <ul>
-            <li>Sos <strong>broker, asesor o supervisor de obras sociales</strong> y trabajás en AMBA.</li>
-            <li>Verificás aportes y cobertura de <strong>miles de casos por mes</strong>: para armar los aptos, cargar una base nueva o controlar una cartera.</li>
-            <li>Hoy lo hacés a mano en ARCA y SSSalud, <strong>de a un caso por vez y con captcha</strong>, y el trabajo se te acumula.</li>
-            <li>Tenés los datos en una <strong>planilla compartida</strong> y querés que el resultado caiga ahí, no en un sistema nuevo que hay que aprender.</li>
-          </ul>
-        </div>
-        <div class="forwho-box no">
-          <h3>No es para vos si…</h3>
-          <ul>
-            <li>Necesitás <strong>diez o veinte casos sueltos por mes</strong>: a mano te sale más barato, y te lo decimos igual.</li>
-            <li>Buscás un <strong>sistema de gestión médico</strong> (turnos, historia clínica, facturación): esto verifica y escribe en tu planilla, nada más.</li>
-            <li>Necesitás <strong>situación financiera o scoring</strong> de los afiliados: acá se mira aportes y cobertura de obra social.</li>
-            <li>Buscás datos que <strong>no estén publicados por ARCA o ANSES</strong>: acá se consulta lo que publican los organismos; no se genera, no se corrige ni se inventa.</li>
-          </ul>
-        </div>
-      </div>
-      <p class="who-foot">Y esto es lo que ya intentaste: un administrativo dedicado al tipeo cuesta
-      <strong>$737.399 por mes</strong>, y un informe comercial del mercado sale
-      <strong>$15.000 a $20.800 por consulta, con tope de 3.000 por mes</strong>.
-      La cuenta completa está más abajo, en <a href="#precios">precios</a>.</p>
+    
+
+    <section class="beneficios">
+      <ul>
+        <li><span class="b-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg></span><b>De cientos de horas a minutos</b>
+          <p>Lo que a mano son 167 a 500 horas, corre solo.</p></li>
+        <li><span class="b-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 2.8 4.6 13.4h6.1l-.9 7.8 8.6-10.6h-6.1z"/></svg></span><b>Sin captcha ni tipeo</b>
+          <p>Se conecta a ARCA y a SSSalud y verifica sin que abrás el navegador.</p></li>
+        <li><span class="b-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19.4c0-3.3 2.8-5.4 6.2-5.4s6.2 2.1 6.2 5.4"/><path d="M16.4 6.2a3 3 0 0 1 0 5.6M17.6 14.6c2.3.6 3.8 2.2 3.8 4.8"/></svg></span><b>Más capacidad, la misma gente</b>
+          <p>Tu equipo procesa bases enteras en vez de casos sueltos.</p></li>
+        <li><span class="b-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 8.5h16M4 13.5h16M9.5 8.5V21"/></svg></span><b>Todo queda en tu planilla</b>
+          <p>Te dejamos la plantilla armada. Si usás Excel, la importás.</p></li>
+      </ul>
     </section>
 
-    <!-- ===================== MÉTODO ===================== -->
-    <section class="metodo" id="metodo">
-      <p class="eyebrow">Cómo funciona</p>
-      <h2>Método Dos Etapas</h2>
-      <p class="lede">Dos etapas, en ese orden: primero ARCA, y SSSalud sólo se consulta
-      para los casos que la primera etapa habilita.</p>
-
-      <div class="mecanismo">
-        <ol class="m-steps">
-          <li><span class="n">01</span><strong>ARCA</strong> — estado de los aportes
-          y relación de dependencia.</li>
-          <li><span class="n">02</span><strong>SSSalud</strong> — cobertura actual del afiliado,
-          únicamente para los casos habilitados en la primera etapa.</li>
-        </ol>
-        <p class="m-foot">Se contabiliza sólo la verificación completada en ambas fuentes.
-        Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
-        <div class="m-diff">
-          <div>
-            <strong>No competimos por el dato.</strong>
-            Los datos son públicos y oficiales. Lo que se paga es el tiempo de conseguirlos.
-          </div>
-          <div>
-            <strong>El descarte no te cuesta.</strong>
-            Un caso que no pasa la primera etapa no consume nada de tu plan.
-          </div>
-          <div>
-            <strong>Corre solo, en continuo.</strong>
-            Sin captcha, sin tipear y sin abrir el navegador: escribe el resultado en tu planilla.
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- =================== FIN MÉTODO =================== -->
-
-    <!-- ===================== PRECIOS ===================== -->
     <section class="pricing" id="precios">
       <p class="eyebrow">Precios</p>
       <h2>Planes mensuales, sin permanencia.</h2>
@@ -923,23 +999,6 @@
         los datos pueden estar desactualizados.
       </p>
 
-      <div class="why">
-        <h3>¿Por qué se paga solo?</h3>
-        <table>
-          <thead>
-            <tr><th>Verificar 10.000 casos</th><th>Costo</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>A mano, caso por caso, en ARCA y SSSalud (con captcha)</td><td>167 a 500 horas de trabajo</td></tr>
-            <tr><td>Un administrativo dedicado a esa tarea</td><td>$737.399 / mes</td></tr>
-            <tr><td>Informe comercial del mercado con datos laborales</td><td>$15.000 a $20.800 por consulta, con tope de 3.000 por mes</td></tr>
-            <tr class="best"><td class="hl">AutoValidador Pro — Plan Asesor</td><td class="hl">$149.000 / mes · 10.000 verificaciones</td></tr>
-          </tbody>
-        </table>
-        <p class="foot">El cálculo a mano considera 1 a 3 minutos por caso entre las dos fuentes,
-        a un costo horario de $4.609 a $6.222 (administrativo, agosto 2026).</p>
-      </div>
-
       <div class="alta">
         <p class="title">Alta e implementación — <span class="price">$250.000</span> por única vez</p>
         <p>Instalación remota, copia y configuración de tu plantilla en tu propia cuenta de Google,
@@ -981,7 +1040,7 @@
     <section class="download" id="descargar">
       <p class="eyebrow">Demo gratuita</p>
       <h2>Descargalo y probalo con tus propios datos.</h2>
-      <p class="lede">Validá 20 casos contra ARCA con la planilla que ya usás: sin clave,
+      <p class="lede">Validá 20 casos contra ARCA con tus propios datos: sin clave,
       sin tarjeta y sin hablar con nadie. Se instala en un minuto.</p>
 
     <div class="downloads">
@@ -1034,6 +1093,186 @@
       armo el presupuesto para tu cartera.</p>
       <a class="btn whatsapp" href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20consultarte" target="_blank" rel="noopener">💬 Escribime por WhatsApp</a>
     </div>
+    </section>
+    <!-- ---------- corte: acá empieza el detalle ---------- -->
+    <div class="detalle-corte">
+      <p class="eyebrow">Los detalles</p>
+      <h2>Todo lo demás, en detalle.</h2>
+      <p class="lede">Si ya viste qué hace, cuánto cuesta y podés probarlo, podés parar acá.
+      Si querés el sustento de cada número, seguí leyendo.</p>
+    </div>
+
+<section class="bloque" id="problema">
+      <p class="eyebrow">El problema</p>
+      <h2>El cuello de botella no es el dato. Es el trabajo de conseguirlo.</h2>
+      <p class="lede">ARCA y SSSalud publican la información y es oficial. El problema
+      aparece cuando el volumen crece: alguien del equipo tiene que entrar, tipear, esperar
+      el captcha, copiar y pegar, caso por caso.</p>
+
+      <div class="prob-grid">
+        <div class="prob-item">
+          <p class="p-t">No escala</p>
+          <h3>Crece en línea recta con tu volumen</h3>
+          <p>El doble de casos es el doble de horas. La única forma de procesar más es sumar
+          manos, y las manos se pagan todos los meses.</p>
+        </div>
+        <div class="prob-item">
+          <p class="p-t">Se corta</p>
+          <h3>Depende de una persona</h3>
+          <p>Vacaciones, licencia o rotación: si la persona que hace las consultas no está,
+          la operación se frena. Y el criterio se va con ella.</p>
+        </div>
+        <div class="prob-item">
+          <p class="p-t">Se paga dos veces</p>
+          <h3>Las horas salen del lado comercial</h3>
+          <p>Las horas que el equipo pasa verificando son horas que no está usando para
+          vender, presentar carpetas o atender afiliados.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="forwho">
+      <h2>¿Es para vos?</h2>
+      <div class="forwho-grid">
+        <div class="forwho-box yes">
+          <h3>Es para vos si…</h3>
+          <ul>
+            <li>Sos <strong>broker, asesor o supervisor de obras sociales</strong> y trabajás en AMBA.</li>
+            <li>Verificás aportes y cobertura de <strong>miles de casos por mes</strong>: para armar los aptos, cargar una base nueva o controlar una cartera.</li>
+            <li>Hoy lo hacés a mano en ARCA y SSSalud, <strong>de a un caso por vez y con captcha</strong>, y el trabajo se te acumula.</li>
+            <li>Tenés los datos en una <strong>planilla compartida</strong> y querés que el resultado caiga ahí, no en un sistema nuevo que hay que aprender.</li>
+          </ul>
+        </div>
+        <div class="forwho-box no">
+          <h3>No es para vos si…</h3>
+          <ul>
+            <li>Necesitás <strong>diez o veinte casos sueltos por mes</strong>: a mano te sale más barato, y te lo decimos igual.</li>
+            <li>Buscás un <strong>sistema de gestión médico</strong> (turnos, historia clínica, facturación): esto verifica y escribe en tu planilla, nada más.</li>
+            <li>Necesitás <strong>situación financiera o scoring</strong> de los afiliados: acá se mira aportes y cobertura de obra social.</li>
+            <li>Buscás datos que <strong>no estén publicados por ARCA o ANSES</strong>: acá se consulta lo que publican los organismos; no se genera, no se corrige ni se inventa.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="who-foot">Y esto es lo que ya intentaste: un administrativo dedicado al tipeo cuesta
+      <strong>$737.399 por mes</strong>, y un informe comercial del mercado sale
+      <strong>$15.000 a $20.800 por consulta, con tope de 3.000 por mes</strong>.
+      La cuenta completa está más abajo, en <a href="#precios">precios</a>.</p>
+    </section>
+
+    <!-- ===================== MÉTODO ===================== -->
+    <section class="metodo" id="metodo">
+      <p class="eyebrow">Cómo funciona</p>
+      <h2>Método Dos Etapas</h2>
+      <p class="lede">Cuatro pasos, en ese orden. ARCA primero, y SSSalud se consulta únicamente
+      para los casos que esa primera etapa habilita.</p>
+
+      <div class="mecanismo">
+        <ol class="m-steps">
+          <li><span class="n">01</span><strong>ARCA</strong> — estado de los aportes
+          y relación de dependencia de toda la base.</li>
+          <li><span class="n">02</span><strong>Filtro</strong> — se identifican los casos
+          que quedan habilitados en esa primera etapa.</li>
+          <li><span class="n">03</span><strong>SSSalud</strong> — cobertura actual del afiliado,
+          sólo para lo que hace falta consultar.</li>
+          <li><span class="n">04</span><strong>Tu planilla</strong> — los resultados se escriben
+          directamente en tu Google Sheets, listos para usar.</li>
+        </ol>
+        <p class="m-foot">Se contabiliza sólo la verificación completada en ambas fuentes.
+        Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
+        <div class="m-diff">
+          <div>
+            <strong>No competimos por el dato.</strong>
+            Los datos son públicos y oficiales. Lo que se paga es el tiempo de conseguirlos.
+          </div>
+          <div>
+            <strong>El descarte no te cuesta.</strong>
+            Un caso que no pasa la primera etapa no consume nada de tu plan.
+          </div>
+          <div>
+            <strong>Corre solo, en continuo.</strong>
+            Sin captcha, sin tipear y sin abrir el navegador: escribe el resultado en tu planilla.
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- =================== FIN MÉTODO =================== -->
+
+    <!-- ===================== PRECIOS ===================== -->
+    <section class="bloque" id="capacidad">
+      <p class="eyebrow">Capacidad</p>
+      <h2>Cuánto podés procesar por mes.</h2>
+      <p class="lede">Cada plan define un volumen mensual de verificaciones. Los equipos de
+      una misma cuenta comparten el cupo, y podés sumar verificaciones sueltas por 1.000.</p>
+
+      <div class="cap-strip">
+        <div class="cap-item">
+          <span class="c-v">10.000</span>
+          <p class="c-n">verificaciones por mes · 1 equipo</p>
+        </div>
+        <div class="cap-item">
+          <span class="c-v">40.000</span>
+          <p class="c-n">verificaciones por mes · hasta 3 equipos</p>
+        </div>
+        <div class="cap-item">
+          <span class="c-v">100.000</span>
+          <p class="c-n">verificaciones por mes · hasta 10 equipos</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloque" id="economia">
+      <p class="eyebrow">La cuenta</p>
+      <h2>Qué cuesta seguir haciéndolo a mano.</h2>
+      <p class="lede">Verificar 10.000 casos, en horas y en pesos, contra lo que cuesta
+      automatizarlo.</p>
+
+      <div class="why">
+        <h3>¿Por qué se paga solo?</h3>
+        <table>
+          <thead>
+            <tr><th>Verificar 10.000 casos</th><th>Costo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>A mano, caso por caso, en ARCA y SSSalud (con captcha)</td><td>167 a 500 horas de trabajo</td></tr>
+            <tr><td>Un administrativo dedicado a esa tarea</td><td>$737.399 / mes</td></tr>
+            <tr><td>Informe comercial del mercado con datos laborales</td><td>$15.000 a $20.800 por consulta, con tope de 3.000 por mes</td></tr>
+            <tr class="best"><td class="hl">AutoValidador Pro — Plan Asesor</td><td class="hl">$149.000 / mes · 10.000 verificaciones</td></tr>
+          </tbody>
+        </table>
+        <p class="foot">El cálculo a mano considera 1 a 3 minutos por caso entre las dos fuentes,
+        a un costo horario de $4.609 a $6.222 (administrativo, agosto 2026).</p>
+      </div>
+    </section>
+
+    <section class="bloque" id="objeciones">
+      <p class="eyebrow">Objeciones</p>
+
+      <div class="no-datos">
+        <h2>No comprás datos. Comprás capacidad operativa.</h2>
+        <p>Los datos de ARCA y SSSalud son públicos y oficiales. El problema aparece cuando
+        tu equipo tiene que conseguirlos, verificarlos y procesarlos uno por uno.</p>
+        <p>AutoValidador Pro automatiza ese trabajo para que puedas procesar grandes
+        volúmenes sin convertir esa tarea en horas adicionales de trabajo manual.</p>
+      </div>
+
+      <div class="obj-grid">
+        <div class="obj-item">
+          <p class="o-q">¿Tengo que cambiar mi sistema?</p>
+          <p>No. El proceso vive en una planilla de Google Sheets: no hay que migrar a un CRM ni
+          cargar los casos en otro sistema. Te dejamos la plantilla armada y, si usás Excel,
+          la importás.</p>
+        </div>
+        <div class="obj-item">
+          <p class="o-q">¿Y si cambia la persona que verifica?</p>
+          <p>El proceso vive en la planilla, no en la cabeza de alguien. Quien tome la tarea
+          sigue el mismo procedimiento, sin reconstruir nada.</p>
+        </div>
+        <div class="obj-item">
+          <p class="o-q">¿Cuánto tarda en estar andando?</p>
+          <p>La instalación y la configuración de tu plantilla están incluidas en el alta,
+          con acompañamiento durante los primeros 30 días.</p>
+        </div>
+      </div>
     </section>
     <!-- =================== FIN DESCARGAS =================== -->
 
