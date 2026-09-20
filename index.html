@@ -834,6 +834,7 @@
     .metodo h2 { font-size: 26px; }
     .forwho-grid { grid-template-columns: 1fr; }
     .m-diff { grid-template-columns: 1fr; }
+    .m-diff-detalle { grid-template-columns: 1fr; }
     .prob-grid, .cap-strip, .obj-grid { grid-template-columns: 1fr; }
     .bloque > h2 { font-size: 26px; }
     .oferta { grid-template-columns: 1fr; }
@@ -876,6 +877,10 @@
     .detalle-corte h2 { margin: 0 0 12px; }
     .detalle-corte .lede { margin: 0 auto; }
     .detalle-corte + .bloque { border-top: 0; padding-top: 0; margin-top: 40px; }
+
+    /* Los diferenciadores bajaron del método al detalle: dos columnas, no tres.
+       (El tercero se sacó: repetía el .m-foot del mecanismo palabra por palabra.) */
+    .m-diff-detalle { grid-template-columns: 1fr 1fr; margin: 26px 0 0; text-align: left; }
 </style>
 </head>
 <body>
@@ -935,20 +940,7 @@
         </ol>
         <p class="m-foot">Se contabiliza sólo la verificación completada en ambas fuentes.
         Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
-        <div class="m-diff">
-          <div>
-            <strong>No competimos por el dato.</strong>
-            Los datos son públicos y oficiales. Lo que se paga es el tiempo de conseguirlos.
-          </div>
-          <div>
-            <strong>El descarte no te cuesta.</strong>
-            Un caso que no pasa la primera etapa no consume nada de tu plan.
-          </div>
-          <div>
-            <strong>Corre solo, en continuo.</strong>
-            Sin captcha, sin tipear y sin abrir el navegador: escribe el resultado en tu planilla.
-          </div>
-        </div>
+        
       </div>
     </section>
 
@@ -1136,6 +1128,17 @@
       <h2>Todo lo demás, en detalle.</h2>
       <p class="lede">Si ya viste qué hace, cuánto cuesta y podés probarlo, podés parar acá.
       Si querés el sustento de cada número, seguí leyendo.</p>
+    </div>
+
+    <div class="m-diff m-diff-detalle">
+      <div>
+        <strong>No competimos por el dato.</strong>
+        Los datos son públicos y oficiales. Lo que se paga es el tiempo de conseguirlos.
+      </div>
+      <div>
+        <strong>Corre solo, en continuo.</strong>
+        Sin captcha, sin tipear y sin abrir el navegador: escribe el resultado en tu planilla.
+      </div>
     </div>
 
 <section class="bloque" id="problema">
