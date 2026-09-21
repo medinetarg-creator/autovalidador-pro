@@ -936,6 +936,56 @@
     .shot-planilla img { min-width: 680px; }
     .shot .s-cap { font-size: 14px; }
   }
+
+  /* ================= TODO EL TEXTO CENTRADO =================
+     El usuario lo pidió así: "se vería mejor toda la web centrada, tanto para móvil
+     como para PC". Centrar solo los contenedores NO alcanza: las viñetas (✓ / —), los
+     números de los pasos y las bandas en flex (.alta .a-head, .pack, footer) tienen los
+     extremos separados a propósito, y si no se tocan queda el texto centrado con el
+     marcador colgado en el borde izquierdo, que se ve peor que antes.
+     Acá los marcadores pasan a ir EN LÍNEA y las bandas a `justify-content: center`.
+     Única excepción: la tabla "¿Por qué se paga solo?" — es una grilla de datos
+     comparativos con una columna de números, y centrar las celdas la vuelve ilegible. */
+  .beneficios, .pantalla, .metodo, .mecanismo, .pricing, .download, .bloque, .forwho, footer,
+  .beneficios li, .mecanismo .m-foot, .alta, .como-paga, .plan, .pack, .o-card, .card, .step,
+  .prob-item, .forwho-box, .unit-note
+  { text-align: center; }
+
+  /* encabezados y párrafos con ancho máximo: centrarlos también como bloque */
+  .metodo h2, .metodo .lede, .pricing .lede, .bloque > h2, .download h2, .download .lede,
+  .forwho h2, .forwho .who-foot, .alta .a-desc, .como-paga .cp-foot, .unit-note .un-foot
+  { margin-left: auto; margin-right: auto; }
+
+  /* bandas que tenían los extremos separados -> al centro */
+  .alta .a-head, .pack, footer { justify-content: center; }
+
+  /* los números de los pasos dejan de estar colgados a la izquierda */
+  .unit-note .un-steps li, .como-paga li { padding-left: 0; }
+
+  .unit-note .un-steps li .n { position: static; margin-right: 7px; }
+
+  /* ---- EXCEPCIÓN: los 4 pasos del Método Dos Etapas quedan a la izquierda ----
+     El usuario los pidió expresamente sin centrar. Son cuatro líneas que se leen
+     como una secuencia (01 ARCA -> 02 Filtro -> 03 SSSalud -> 04 Tu planilla) y
+     con el número en el margen izquierdo se sigue el orden de un vistazo; centrados
+     el número queda en medio de la frase y se pierde la lectura de lista. El pie
+     del bloque (.m-foot) sí queda centrado. */
+  .mecanismo .m-steps li { text-align: left; }
+
+  /* ---- EXCEPCIÓN: las dos listas de ítems ----
+     Las características de cada plan y las de "¿Es para vos?". Ahí cada ítem ocupa
+     una o dos líneas y lleva marcador (✓ / —) al principio: centrados, la segunda
+     línea queda centrada abajo de la primera y los marcadores arman un borde
+     izquierdo irregular, así que la lista deja de poder recorrerse de un vistazo —
+     justo en los dos lugares donde el texto enumera lo que el cliente recibe.
+     Se centra el título de la tarjeta; la lista adentro queda a la izquierda.
+     Esto y la tabla comparativa son lo único que no se centra. */
+  .plan ul, .plan li, .forwho-box ul, .forwho-box li { text-align: left; }
+
+  .como-paga .cp-n {
+    position: static; display: inline-flex; vertical-align: middle; margin-right: 8px;
+  }
+  .como-paga li > div { display: inline; }
 </style>
 </head>
 <body>
