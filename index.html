@@ -667,8 +667,17 @@
     margin: 0;
     padding-top: 16px;
     border-top: 1px solid var(--border);
-    font-size: 14px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  /* El diferencial (no se paga por lo descartado) va en su propia línea y destacado:
+     es la parte que le importa al cliente, no la explicación del mecanismo. */
+  .mecanismo .m-key {
+    margin: 10px 0 0;
+    font-size: 16.5px;
+    font-weight: 650;
     color: var(--ink);
+    letter-spacing: -0.01em;
   }
   .m-diff {
     display: grid;
@@ -1060,8 +1069,8 @@
           <li><span class="n">04</span><strong>Tu planilla</strong> — los resultados se escriben
           directamente en tu Google Sheets, listos para usar.</li>
         </ol>
-        <p class="m-foot">Se contabiliza sólo la verificación completada en ambas fuentes.
-        Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
+        <p class="m-foot">Se contabiliza sólo la verificación completada en ambas fuentes.</p>
+          <p class="m-key">Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
         
       </div>
     </section>
