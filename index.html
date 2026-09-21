@@ -493,9 +493,19 @@
     border: 1px solid var(--border);
     border-radius: 12px;
   }
-  .alta .title { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
-  .alta p { font-size: 14px; color: var(--muted); margin: 0; }
-  .alta .price { color: var(--ink); font-weight: 600; }
+  .alta .a-head { display: flex; align-items: baseline; justify-content: space-between;
+                  gap: 18px; flex-wrap: wrap; margin: 0 0 14px; }
+  .alta .a-title { font-size: 16px; font-weight: 650; margin: 0; color: var(--ink); }
+  .alta .a-price { font-size: 27px; font-weight: 650; letter-spacing: -0.02em; margin: 0;
+                   color: var(--ink); white-space: nowrap; }
+  .alta .a-price span { font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+  /* La concesión que hay que ver primero: el número, grande y en el acento. */
+  .alta .a-gift { margin: 0 0 14px; padding: 12px 16px; border-radius: 10px;
+                  background: var(--accent-soft); border-left: 3px solid var(--accent);
+                  font-size: 18px; font-weight: 650; color: var(--ink);
+                  letter-spacing: -0.01em; line-height: 1.3; }
+  .alta .a-gift .a-num { color: var(--accent); }
+  .alta .a-desc { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.55; }
 
   .fineprint {
     margin: 18px 0 0;
@@ -840,6 +850,8 @@
     .oferta { grid-template-columns: 1fr; }
     .downloads, .steps, .packs { grid-template-columns: 1fr; }
     .plan .price { font-size: 28px; }
+    .alta .a-price { font-size: 22px; }
+    .alta .a-gift { font-size: 16px; }
     .why table { font-size: 13px; }
     .why th, .why td { padding: 8px 6px; }
   }
@@ -1028,9 +1040,14 @@
       </p>
 
       <div class="alta">
-        <p class="title">Alta e implementación — <span class="price">$250.000</span> por única vez</p>
-        <p>Instalación remota, copia y configuración de tu plantilla en tu propia cuenta de Google,
-        carga de tu primera base y capacitación por videollamada. Incluye acompañamiento los primeros 30 días.</p>
+        <div class="a-head">
+          <p class="a-title">Sistema, Alta e implementación</p>
+          <p class="a-price">$990.000 <span>por única vez</span></p>
+        </div>
+        <p class="a-gift">Incluye <span class="a-num">10.000</span> verificaciones</p>
+        <p class="a-desc">Instalación remota, copia y configuración de tu plantilla en tu propia cuenta
+        de Google, carga de tu primera base y capacitación por videollamada. Incluye acompañamiento
+        los primeros 30 días.</p>
       </div>
 
       <div class="oferta">
