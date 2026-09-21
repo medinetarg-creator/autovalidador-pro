@@ -880,6 +880,62 @@
     .pricing > .lede { text-align: center; margin: 0 auto 30px; }
 
     .alta .a-gift .a-nv { font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+  /* ---------- Lo que ves en pantalla ---------- */
+  .pantalla {
+    margin: 56px 0 0;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .pantalla h2 {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 650;
+    margin: 0 0 10px;
+  }
+  .pantalla .lede { margin: 0 auto 36px; max-width: 60ch; }
+  .shot { margin: 0 auto 34px; }
+  .shot .s-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+  .shot .s-box {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    padding: 10px;
+    overflow: hidden;
+  }
+  .shot .s-box img { display: block; width: 100%; height: auto; border-radius: 7px; }
+  .shot .s-cap {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.55;
+    max-width: 62ch;
+    margin: 14px auto 0;
+  }
+  .shot-diseno .s-box { max-width: 940px; margin: 0 auto; }
+  .shot-diseno img { border-radius: 7px; }
+  .shot-sistema .s-box { max-width: 600px; margin: 0 auto; }
+  .shot-planilla .s-box { max-width: 940px; margin: 0 auto; }
+  .pantalla .s-nota {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 28px 0 0;
+  }
+  @media (max-width: 640px) {
+    .pantalla h2 { font-size: 25px; }
+    .shot .s-box { padding: 6px; }
+    .shot-sistema .s-box, .shot-planilla .s-box { overflow-x: auto; }
+    .shot-sistema img { min-width: 520px; }
+    .shot-planilla img { min-width: 680px; }
+    .shot .s-cap { font-size: 14px; }
+  }
 </style>
 </head>
 <body>
@@ -1145,6 +1201,44 @@
       armo el presupuesto para tu cartera.</p>
       <a class="btn whatsapp" href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20consultarte" target="_blank" rel="noopener">💬 Escribime por WhatsApp</a>
     </div>
+    </section>
+    <!-- ---------- Lo que ves en pantalla ---------- -->
+    <section class="pantalla" id="pantalla">
+      <p class="eyebrow">En pantalla</p>
+      <h2>Lo que ves en pantalla es lo que aparece en tu planilla.</h2>
+      <p class="lede">El panel corre en tu equipo, y cada fila se escribe con su resultado en la
+      planilla de Google Sheets que te dejamos armada. Si trabajás en Excel, la importás.</p>
+
+      <figure class="shot shot-diseno">
+        <div class="s-box">
+          <a href="img/diseno-escritorio.jpg" target="_blank" rel="noopener">
+            <img src="img/diseno-escritorio.jpg" width="1604" height="656" loading="lazy"
+              alt="AutoValidador Pro corriendo en una notebook: el panel con el avance de ARCA Aportes y SSSalud, y la planilla de resultados abierta al lado.">
+          </a>
+        </div>
+      </figure>
+
+      <figure class="shot shot-sistema">
+        <figcaption class="s-tag">El sistema</figcaption>
+        <div class="s-box">
+          <a href="img/panel-sistema.png" target="_blank" rel="noopener"><img src="img/panel-sistema.png" width="880" height="851" loading="lazy"
+            alt="Panel de AutoValidador Pro: botones Iniciar y Detener Validación, crédito disponible, avance de ARCA Aportes y SSSalud, y el registro de actividad con cada fila resuelta."></a>
+        </div>
+        <p class="s-cap">Corre solo, en continuo. Ves cuántas verificaciones te quedan y el detalle de
+        cada fila a medida que se resuelve.</p>
+      </figure>
+
+      <figure class="shot shot-planilla">
+        <figcaption class="s-tag">Tu planilla</figcaption>
+        <div class="s-box">
+          <a href="img/planilla-resultados.png" target="_blank" rel="noopener"><img src="img/planilla-resultados.png" width="1739" height="711" loading="lazy"
+            alt="Planilla de Google Sheets con las columnas CUIL, teléfono, nombre, obra social, localidad, aportes y cobertura, con cada fila marcada en verde, rojo o amarillo según el resultado."></a>
+        </div>
+        <p class="s-cap">Todo queda en tu planilla. Aportes y cobertura de obra social, con la fecha
+        de cada chequeo.</p>
+      </figure>
+
+      <p class="s-nota">Capturas reales del sistema. Los datos personales de las filas están tapados.</p>
     </section>
     <!-- ---------- corte: acá empieza el detalle ---------- -->
     <div class="detalle-corte">
