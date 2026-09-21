@@ -761,19 +761,19 @@
     font-weight: 650;
     margin: 0 0 10px;
   }
-  .prob-grid, .cap-strip, .obj-grid {
+  .prob-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     align-items: stretch;
   }
-  .prob-item, .cap-item, .obj-item {
+  .prob-item {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 20px 22px;
   }
-  .prob-item .p-t, .obj-item .o-q {
+  .prob-item .p-t {
     font-family: var(--mono);
     font-size: 11px;
     letter-spacing: 0.08em;
@@ -787,49 +787,12 @@
     line-height: 1.3;
     margin: 0 0 8px;
   }
-  .prob-item p:last-child, .obj-item p:last-child {
+  .prob-item p:last-child {
     font-size: 14px;
     line-height: 1.55;
     color: var(--muted);
     margin: 0;
   }
-  .cap-item .c-v {
-    display: block;
-    font-family: var(--mono);
-    font-size: 30px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin: 0 0 6px;
-  }
-  .cap-item .c-n {
-    font-size: 14px;
-    color: var(--muted);
-    margin: 0;
-  }
-  .no-datos {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 12px;
-    padding: 26px 28px;
-    margin: 0 0 20px;
-  }
-  .no-datos h2 {
-    font-size: 24px;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    font-weight: 650;
-    margin: 0 0 12px;
-  }
-  .no-datos p {
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.6;
-    margin: 0 0 10px;
-    max-width: 62ch;
-  }
-  .no-datos p:last-child { margin-bottom: 0; }
 
   @media (max-width: 760px) {
     .plans { grid-template-columns: 1fr; }
@@ -845,7 +808,7 @@
     .forwho-grid { grid-template-columns: 1fr; }
     .m-diff { grid-template-columns: 1fr; }
     .m-diff-detalle { grid-template-columns: 1fr; }
-    .prob-grid, .cap-strip, .obj-grid { grid-template-columns: 1fr; }
+    .prob-grid { grid-template-columns: 1fr; }
     .bloque > h2 { font-size: 26px; }
     .oferta { grid-template-columns: 1fr; }
     .downloads, .steps, .packs { grid-template-columns: 1fr; }
@@ -1264,27 +1227,6 @@
     <!-- =================== FIN MÉTODO =================== -->
 
     <!-- ===================== PRECIOS ===================== -->
-    <section class="bloque" id="capacidad">
-      <p class="eyebrow">Capacidad</p>
-      <h2>Cuánto podés procesar por mes.</h2>
-      <p class="lede">Cada plan define un volumen mensual de verificaciones. Los equipos de
-      una misma cuenta comparten el cupo, y podés sumar verificaciones sueltas por 1.000.</p>
-
-      <div class="cap-strip">
-        <div class="cap-item">
-          <span class="c-v">10.000</span>
-          <p class="c-n">verificaciones por mes · 1 equipo</p>
-        </div>
-        <div class="cap-item">
-          <span class="c-v">40.000</span>
-          <p class="c-n">verificaciones por mes · hasta 3 equipos</p>
-        </div>
-        <div class="cap-item">
-          <span class="c-v">100.000</span>
-          <p class="c-n">verificaciones por mes · hasta 10 equipos</p>
-        </div>
-      </div>
-    </section>
 
     <section class="bloque" id="economia">
       <p class="eyebrow">La cuenta</p>
@@ -1310,36 +1252,6 @@
       </div>
     </section>
 
-    <section class="bloque" id="objeciones">
-      <p class="eyebrow">Objeciones</p>
-
-      <div class="no-datos">
-        <h2>No comprás datos. Comprás capacidad operativa.</h2>
-        <p>Los datos de ARCA y SSSalud son públicos y oficiales. El problema aparece cuando
-        tu equipo tiene que conseguirlos, verificarlos y procesarlos uno por uno.</p>
-        <p>AutoValidador Pro automatiza ese trabajo para que puedas procesar grandes
-        volúmenes sin convertir esa tarea en horas adicionales de trabajo manual.</p>
-      </div>
-
-      <div class="obj-grid">
-        <div class="obj-item">
-          <p class="o-q">¿Tengo que cambiar mi sistema?</p>
-          <p>No. El proceso vive en una planilla de Google Sheets: no hay que migrar a un CRM ni
-          cargar los casos en otro sistema. Te dejamos la plantilla armada y, si usás Excel,
-          la importás.</p>
-        </div>
-        <div class="obj-item">
-          <p class="o-q">¿Y si cambia la persona que verifica?</p>
-          <p>El proceso vive en la planilla, no en la cabeza de alguien. Quien tome la tarea
-          sigue el mismo procedimiento, sin reconstruir nada.</p>
-        </div>
-        <div class="obj-item">
-          <p class="o-q">¿Cuánto tarda en estar andando?</p>
-          <p>La instalación y la configuración de tu plantilla están incluidas en el alta,
-          con acompañamiento durante los primeros 30 días.</p>
-        </div>
-      </div>
-    </section>
     <!-- =================== FIN DESCARGAS =================== -->
 
 
