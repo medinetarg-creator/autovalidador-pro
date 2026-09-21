@@ -893,6 +893,28 @@
     /* Los diferenciadores bajaron del método al detalle: dos columnas, no tres.
        (El tercero se sacó: repetía el .m-foot del mecanismo palabra por palabra.) */
     .m-diff-detalle { grid-template-columns: 1fr 1fr; margin: 26px 0 0; text-align: left; }
+
+    /* ---------- cómo se paga (la secuencia sistema → planes) ---------- */
+    .como-paga { margin: 0 0 30px; padding: 22px 26px; background: var(--surface-2);
+                 border: 1px solid var(--border); border-radius: 12px; }
+    .como-paga .cp-t { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
+                       text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
+    .como-paga ol { list-style: none; padding: 0; margin: 0 0 16px; }
+    .como-paga li { position: relative; padding-left: 34px; margin-bottom: 14px; }
+    .como-paga li:last-child { margin-bottom: 0; }
+    .como-paga .cp-n { position: absolute; left: 0; top: 1px; width: 22px; height: 22px;
+                       border-radius: 999px; background: var(--accent-soft); color: var(--accent);
+                       font-family: var(--mono); font-size: 12px; display: flex;
+                       align-items: center; justify-content: center; }
+    .como-paga li div { font-size: 14px; color: var(--muted); line-height: 1.55; }
+    .como-paga li strong { color: var(--ink); font-weight: 600; }
+    .como-paga .cp-foot { margin: 0; padding-top: 15px; border-top: 1px solid var(--border);
+                          font-size: 14px; color: var(--muted); line-height: 1.55; }
+    .como-paga .cp-foot strong { color: var(--ink); font-weight: 600; }
+
+    /* ---------- encabezado de precios centrado ---------- */
+    .pricing > .eyebrow, .pricing > h2 { text-align: center; }
+    .pricing > .lede { text-align: center; margin: 0 auto 30px; }
 </style>
 </head>
 <body>
@@ -969,9 +991,28 @@
         de Google, carga de tu primera base y capacitación por videollamada. Incluye acompañamiento
         los primeros 30 días.</p>
       </div>
+      <div class="como-paga">
+        <p class="cp-t">Cómo se paga</p>
+        <ol>
+          <li><span class="cp-n">1</span>
+            <div><strong>Comprás el sistema una vez.</strong> $990.000, con 10.000
+            verificaciones incluidas. Es un pago único: el sistema no se vuelve a pagar.</div></li>
+          <li><span class="cp-n">2</span>
+            <div><strong>Verificás esos 10.000 casos.</strong> Es el saldo con el que arrancás,
+            sin contratar ningún plan.</div></li>
+          <li><span class="cp-n">3</span>
+            <div><strong>Sólo si querés más, agregás un plan o un pack.</strong> Ahí elegís el
+            plan mensual o el pack prepago que te sirva, según el volumen que necesites.</div></li>
+        </ol>
+        <p class="cp-foot"><strong>No estás obligado a pagar todos los meses.</strong> Los packs
+        prepago no vencen y los planes son sin permanencia: podés darlos de baja y volver a
+        contratarlos cuando necesites verificar más. Pagás por verificar, no por el paso del tiempo.</p>
+      </div>
+
       <h2>Planes mensuales, sin permanencia.</h2>
       <p class="lede">Se paga mes a mes, por adelantado. Podés cambiar de plan o darlo de baja
-      cuando quieras. Cada plan incluye la aplicación, las actualizaciones y soporte por WhatsApp.
+      cuando quieras. Cada plan incluye las actualizaciones y el soporte por WhatsApp;
+      <strong>la aplicación se adquiere con el alta del sistema.</strong>
       <strong>¿Querés probarlo antes de pagar?</strong> Bajá la demo y corré 20 casos gratis,
       sin clave: está más abajo, en <a href="#descargar">Descargar</a>.</p>
 
