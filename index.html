@@ -505,6 +505,13 @@
                   font-size: 18px; font-weight: 650; color: var(--ink);
                   letter-spacing: -0.01em; line-height: 1.3; }
   .alta .a-gift .a-num { color: var(--accent); }
+.alta .a-key {
+margin: 0 0 12px;
+font-size: 16.5px;
+font-weight: 650;
+color: var(--ink);
+letter-spacing: -0.01em;
+}
   .alta .a-desc { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.55; }
 
   .fineprint {
@@ -995,6 +1002,15 @@
     position: static; display: inline-flex; vertical-align: middle; margin-right: 8px;
   }
   .como-paga li > div { display: inline; }
+  /* Letra chica y nota de datos: caja centrada (margenes automaticos) y ancho de lectura
+     como el del resto de los parrafos. Centrar solo el texto no alcanza: la caja queda
+     anclada a la izquierda y el centrado no se ve. */
+  .data-note, .fineprint {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 620px;
+  }
 </style>
 </head>
 <body>
@@ -1016,8 +1032,8 @@
       <strong>cobertura en SSSalud</strong> solo, sin captcha y sin tipeo, y escribe todo en una
       planilla de Google Sheets que <strong>te dejamos armada</strong>. Si trabajás en Excel,
       la importás.</p>
-      <p class="sub-hero"><strong>Menos trabajo manual. Más capacidad para procesar bases
-      completas.</strong></p>
+      <p class="sub-hero"><strong>Chequeo de aportes ilimitado, con módulo de chequeo de SSSalud
+      opcional.</strong></p>
     </div>
 
     
@@ -1055,8 +1071,9 @@
     <section class="metodo" id="metodo">
       <p class="eyebrow">Cómo funciona</p>
       <h2>Método Dos Etapas</h2>
-      <p class="lede">Cuatro pasos, en ese orden. ARCA primero, y SSSalud se consulta únicamente
-      para los casos que esa primera etapa habilita.</p>
+      <p class="lede">Cuatro pasos, en ese orden. ARCA primero, y SSSalud consulta únicamente los
+      casos que esa primera etapa habilita. <strong>El paso 03 corre si tenés el módulo de SSSalud
+      activo.</strong></p>
 
       <div class="mecanismo">
         <ol class="m-steps">
@@ -1069,8 +1086,10 @@
           <li><span class="n">04</span><strong>Tu planilla</strong> — los resultados se escriben
           directamente en tu Google Sheets, listos para usar.</li>
         </ol>
-        <p class="m-foot">Se contabiliza sólo la verificación completada en ambas fuentes.</p>
-          <p class="m-key">Los casos descartados en la primera etapa <strong>no consumen cupo del plan</strong>.</p>
+        <p class="m-foot">El chequeo de aportes corre sobre la base
+        completa y no consume cupo.</p>
+          <p class="m-key">Sólo consume cupo el chequeo de SSSalud. Lo que se
+        descarta antes, no gasta nada.</p>
         
       </div>
     </section>
@@ -1083,7 +1102,8 @@
           <p class="a-title">Sistema, Alta e implementación</p>
           <p class="a-price">$990.000 <span>por única vez</span></p>
         </div>
-        <p class="a-gift">Incluye <span class="a-num">10.000</span> verificaciones
+        <p class="a-key">La validación de aportes (ARCA) es ilimitada.</p>
+        <p class="a-gift">Incluye <span class="a-num">1.000</span> verificaciones de SSSalud para probar el módulo
           <span class="a-nv">· no vencen</span></p>
         <p class="a-desc">Instalación remota, copia y configuración de tu plantilla en tu propia cuenta
         de Google, carga de tu primera base y capacitación por videollamada. Incluye acompañamiento
@@ -1093,26 +1113,32 @@
         <p class="cp-t">Cómo se paga</p>
         <ol>
           <li><span class="cp-n">1</span>
-            <div><strong>Comprás el sistema una vez.</strong> $990.000, con 10.000
-            verificaciones incluidas. Es un pago único: el sistema no se vuelve a pagar.</div></li>
+            <div><strong>Comprás el sistema una vez.</strong> $990.000. La validación de aportes
+            en ARCA queda ilimitada: no es una suscripción.</div></li>
           <li><span class="cp-n">2</span>
-            <div><strong>Verificás esos 10.000 casos.</strong> No vencen: las usás cuando
-            quieras, sin contratar ningún plan.</div></li>
+            <div><strong>Los 1.000 de SSSalud vienen incluidos para probar el módulo.</strong> No vencen:
+            los usás cuando quieras, sin contratar ningún plan.</div></li>
           <li><span class="cp-n">3</span>
-            <div><strong>Sólo si querés más, agregás un plan o un pack.</strong> Ahí elegís el
-            plan mensual o el pack prepago que te sirva, según el volumen que necesites.</div></li>
+            <div><strong>Solo si querés más SSSalud, agregás un plan o un pack.</strong> Ahí elegís
+            el plan mensual o el pack prepago, según el volumen que necesites.</div></li>
         </ol>
-        <p class="cp-foot"><strong>No estás obligado a pagar todos los meses.</strong> Los packs
-        prepago no vencen y los planes son sin permanencia: podés darlos de baja y volver a
-        contratarlos cuando necesites verificar más. Pagás por verificar, no por el paso del tiempo.</p>
+        <p class="cp-foot">No estás obligado a pagar todos los meses. Los packs prepago no vencen y los
+        planes no tienen permanencia mínima: contratás el mes que necesitás y, si no seguís, no
+        renovás. <strong>Usás el cupo contratado a tu ritmo.</strong> Pagás por verificar,
+        no por el paso del tiempo.</p>
       </div>
 
-      <h2>Planes mensuales, sin permanencia.</h2>
-      <p class="lede">Se paga mes a mes, por adelantado. Podés cambiar de plan o darlo de baja
-      cuando quieras. Cada plan incluye las actualizaciones y el soporte por WhatsApp;
-      <strong>la aplicación se adquiere con el alta del sistema.</strong>
-      <strong>¿Querés probarlo antes de pagar?</strong> Bajá la demo y corré 20 casos gratis,
-      sin clave: está más abajo, en <a href="#descargar">Descargar</a>.</p>
+      <h2>Módulo SSSalud: validá sólo lo que realmente importa.</h2>
+      <p class="lede">Llevá tu proceso de validación un paso más allá.</p>
+      <p class="lede">El módulo SSSalud es opcional y está pensado para que uses tus validaciones de
+      forma inteligente: el sistema detecta los casos aptos con la validación de aportes ilimitada, y
+      después consultás SSSalud únicamente cuando corresponde.</p>
+      <p class="lede">Elegí el volumen que necesitás, sin compromisos ni permanencia: activás el
+      módulo el mes que lo necesitás y decidís cuándo renovarlo. Todos los planes incluyen las
+      actualizaciones, las mejoras del sistema y el soporte personalizado por WhatsApp.</p>
+      <p class="lede"><strong>Probalo antes de contratar.</strong> Descargá la demo gratuita y
+      procesá 20 casos reales, sin clave ni compromiso: está más abajo, en
+      <a href="#descargar">Descargar</a>.</p>
 
       <div class="plans">
         <div class="plan featured">
@@ -1168,7 +1194,7 @@
       <div class="packs">
         <div class="pack">
           <div>
-            <p class="p-name">Pack de prueba · 1.000 verificaciones</p>
+            <p class="p-name">Pack inicial · 1.000 verificaciones</p>
             <p class="p-note">Prepago · no vence · $39 por verificación</p>
           </div>
           <span class="p-price">$39.000</span>
@@ -1192,14 +1218,14 @@
       <div class="oferta">
         <div class="o-card">
           <p class="o-tag">Garantía</p>
-          <h4>Pagás sólo lo que se completa</h4>
-          <p>La unidad es la <strong>verificación completada</strong>. Si un caso se descarta en la
-          primera etapa, no te consume cupo: nunca pagás un intento.</p>
+          <h4>Sólo llega a SSSalud lo que pasó el filtro</h4>
+        <p>El primer chequeo es el de aportes, y no consume cupo. Lo que esa etapa descarta no se
+        consulta en SSSalud: <strong>el cupo se gasta únicamente en los casos que pueden servirte</strong>.</p>
         </div>
         <div class="o-card">
           <p class="o-tag">Sin vencimiento</p>
           <h4>Las verificaciones no vencen</h4>
-          <p><strong>Las 10.000 que incluye el sistema</strong> y las que comprás en los packs
+          <p><strong>Las 1.000 de SSSalud que incluye el sistema</strong> y las que comprás en los packs
           quedan tuyas hasta que las uses. No hay que gastarlas dentro del mes.</p>
         </div>
         <div class="o-card">
@@ -1212,7 +1238,7 @@
 
       <p class="fineprint">Precios en pesos, vigentes a septiembre de 2026, más IVA cuando corresponda.
       Se actualizan trimestralmente. Cada verificación incluye el chequeo en ARCA y, cuando
-      corresponde, el de SSSalud. Las 10.000 verificaciones incluidas con el sistema y las de los packs prepago no vencen;
+      corresponde, el de SSSalud. Las 1.000 verificaciones de SSSalud incluidas con el sistema y las de los packs prepago no vencen;
       el cupo de los planes mensuales no se acumula de un mes al otro. Los equipos de un mismo plan comparten el cupo.
       La información consultada es la publicada por ARCA y por ANSES, y se actualiza según los
       plazos de cada organismo: puede estar desactualizada al momento del chequeo. AutoValidador Pro
