@@ -8,25 +8,6 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="192x192" href="icono-192.png">
 <link rel="apple-touch-icon" href="icono-192.png">
-<!--
-  ============================================================================
-  PÁGINA DE DESCARGA + PRECIOS — AutoValidador Pro
-  ============================================================================
-  EDITÁ SOLO ESTO: las URLs reales de tus archivos (en la sección "downloads").
-  Buscá las etiquetas <a ... href="..."> y reemplazá:
-
-    - Windows (completa):  href="descargas/AutoValidadorPro-Instalador.exe"
-    - Windows (liviana):   href="descargas/AutoValidadorPro-Instalador-Liviano.exe"
-    - macOS:               href="descargas/AutoValidadorPro-mac.dmg"
-
-  Si los archivos viven en otra URL (Mega, Drive, tu hosting), pegá ahí el
-  link completo. El resto de la página no necesita cambios.
-
-  PRECIOS: la sección "precios" (más abajo) tiene la escalera de packs. Si cambian,
-  editá los siete números de la escalera, el "por verificación" de cada uno y la fecha
-  de "vigentes a". Nada más.
-  ============================================================================
--->
 <style>
   :root {
     --bg: #0F1216;
@@ -273,6 +254,8 @@
     gap: 16px;
     align-items: stretch;
   }
+  /* La tarjeta de precio a medida ocupa la fila entera: no compite con los tres packs */
+  .plan-wide { grid-column: 1 / -1; }
   .plan {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -1113,8 +1096,7 @@ letter-spacing: -0.01em;
       en cada verificación, la planilla de Google Sheets, el importador de Excel, los reintentos
       automáticos y las actualizaciones.</p>
       <p class="lede"><strong>Las verificaciones no vencen.</strong> Comprás las que necesitás y las
-      usás a tu ritmo; cuando se te acaban, comprás otro pack. Cuanto más grande el pack, más baja el
-      precio por verificación.</p>
+      usás a tu ritmo; cuando se te acaban, comprás otro pack.</p>
       <p class="lede"><strong>Probalo antes de comprar.</strong> Descargá la demo gratuita y
       procesá 20 casos reales, sin clave ni compromiso: está más abajo, en
       <a href="#descargar">Descargar</a>.</p>
@@ -1124,7 +1106,6 @@ letter-spacing: -0.01em;
         <div class="plan">
           <p class="name">1.000 verificaciones</p>
           <p class="price">$49.990</p>
-          <p class="unit">$49,99 por verificación</p>
           <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%201%2E000%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
         </div>
 
@@ -1132,44 +1113,22 @@ letter-spacing: -0.01em;
           <span class="tag">Más elegido</span>
           <p class="name">2.500 verificaciones</p>
           <p class="price">$99.990</p>
-          <p class="unit">$40,00 por verificación</p>
           <a class="btn" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%202%2E500%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
         </div>
 
         <div class="plan">
           <p class="name">5.000 verificaciones</p>
           <p class="price">$179.990</p>
-          <p class="unit">$36,00 por verificación</p>
           <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%205%2E000%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
         </div>
 
-        <div class="plan">
-          <p class="name">10.000 verificaciones</p>
-          <p class="price">$299.990</p>
-          <p class="unit">$30,00 por verificación</p>
-          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%2010%2E000%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
+        <div class="plan plan-wide">
+          <p class="name">¿Necesitás más de 10.000 verificaciones?</p>
+          <p class="unit">Te armamos un precio por volumen</p>
+          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20consultar%20por%20precios%20corporativos%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Consultar</a>
         </div>
 
-        <div class="plan">
-          <p class="name">25.000 verificaciones</p>
-          <p class="price">$649.990</p>
-          <p class="unit">$26,00 por verificación</p>
-          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%2025%2E000%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
-        </div>
-
-        <div class="plan">
-          <p class="name">50.000 verificaciones</p>
-          <p class="price">$1.149.990</p>
-          <p class="unit">$23,00 por verificación</p>
-          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%2050%2E000%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
-        </div>
-
-        <div class="plan">
-          <p class="name">100.000 verificaciones</p>
-          <p class="price">$1.999.990</p>
-          <p class="unit">$20,00 por verificación</p>
-          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%20100%2E000%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
-        </div>
+      </div>
 
       </div>
 
