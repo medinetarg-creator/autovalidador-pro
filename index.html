@@ -248,6 +248,8 @@
      pero sin caer en una columna angosta que lo haga parecer un muro de texto. */
   .pricing .modulo-texto { max-width: 820px; margin: 0 auto; }
   .pricing .modulo-texto .lede { max-width: none; }
+  /* El h2 de un .modulo-texto no es hijo directo de .pricing: la regla general no lo alcanza */
+  .pricing .modulo-texto h2 { text-align: center; }
   .plans {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -256,6 +258,7 @@
   }
   /* La tarjeta de precio a medida ocupa la fila entera: no compite con los tres packs */
   .plan-wide { grid-column: 1 / -1; }
+  .plan-wide .btn { max-width: 360px; margin: 6px auto 0; }
   .plan {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -423,13 +426,14 @@
   #demo { text-align: center; }
   #demo .btn.whatsapp { display: inline-block; margin: 0 auto; }
   .data-note {
-    margin: 12px 0 0;
+    margin: 26px auto 0;
     font-size: 13px;
     line-height: 1.55;
     color: var(--muted);
     max-width: 68ch;
   }
   .data-note strong { color: var(--ink); font-weight: 600; }
+  .data-note { text-align: center; }
 
   .why {
     margin: 36px 0 0;
@@ -861,7 +865,7 @@ letter-spacing: -0.01em;
     .m-diff-detalle { grid-template-columns: 1fr 1fr; margin: 26px 0 0; text-align: left; }
 
     /* ---------- cómo se paga (la secuencia: compra del pack) ---------- */
-    .como-paga { margin: 0 0 30px; padding: 22px 26px; background: var(--surface-2);
+    .como-paga { margin: 36px 0 30px; padding: 22px 26px; background: var(--surface-2);
                  border: 1px solid var(--border); border-radius: 12px; }
     .como-paga .cp-t { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
                        text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
@@ -1124,7 +1128,7 @@ letter-spacing: -0.01em;
             <li><strong>Panel de crédito</strong>: ves cuántas te quedan</li>
             <li>Reintentos automáticos y resultados definitivos</li>
           </ul>
-          <a class="btn " href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%202%2E500%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
+          <a class="btn" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%202%2E500%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
         </div>
 
         <div class="plan">
@@ -1142,13 +1146,9 @@ letter-spacing: -0.01em;
 
         <div class="plan plan-wide">
           <p class="name">¿Necesitás más de 10.000 verificaciones?</p>
-          <p class="unit">Te armamos un precio por volumen</p>
+          <p class="unit">Te armamos un <strong>pack a medida</strong>.</p>
           <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20consultar%20por%20precios%20corporativos%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Consultar</a>
         </div>
-      </div>
-
-      </div>
-
       </div>
 
       <p class="data-note">
