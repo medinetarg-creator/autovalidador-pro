@@ -8,6 +8,58 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="192x192" href="icono-192.png">
 <link rel="apple-touch-icon" href="icono-192.png">
+<!-- Verificación de dominio de Meta: cuando el dominio propio (www.autovalidadorpro.com)
+     esté resolviendo y Meta dé el código, se pega acá abajo y se publica de nuevo:
+     <meta name="facebook-domain-verification" content="PEGAR-CODIGO-DE-META"> -->
+<!-- ══════════════════════════════════════════════════════════════════════════
+     Píxel de Meta (AutoValidador Pro)
+     ÚNICO dato a pegar: el ID del conjunto de datos, en la línea marcada abajo.
+     Se saca de: Administrador de eventos → Orígenes de datos → conjunto de
+     datos de AutoValidador Pro → ID (15-16 dígitos).
+
+     Qué se mide:
+       · PageView  → visita (automático, lo manda Meta)
+       · Lead      → click en cualquier botón de descarga del demo
+       · Contact   → click en cualquier link de WhatsApp
+     Las dos conversiones de verdad son Lead y Contact. La visita NO lo es.
+     ══════════════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  var id = "";                    /* ⬅ PEGAR ACÁ EL ID DEL PÍXEL, ej: "1234567890123456" */
+
+  var esLocal = location.protocol === "file:" ||
+                /^(localhost|127\.0\.0\.1|\[::1\])$/i.test(location.hostname);
+  if (!id) { console.warn("[AVP] Píxel de Meta sin ID: no se envía ningún evento."); return; }
+  if (esLocal && !window.AVP_PIXEL_FORZAR) return;   /* no ensuciar los datos desde pruebas locales */
+
+  !function (f, b, e, v, n, t, s) {
+    if (f.fbq) return;
+    n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!f._fbq) f._fbq = n;
+    n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = [];
+    t = b.createElement(e); t.async = !0; t.src = v;
+    s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+  }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+
+  fbq("init", id);
+  fbq("track", "PageView");
+
+  /* Conversión 1 (descarga del demo) y 2 (consulta por WhatsApp).
+     Los links de descarga apuntan a GitHub Releases; los de WhatsApp a wa.me. */
+  document.addEventListener("click", function (ev) {
+    var el = ev.target;
+    var a = (el && el.closest) ? el.closest("a[href]") : null;
+    if (!a) return;
+    var url = a.getAttribute("href") || "";
+    if (url.indexOf("releases/latest/download") !== -1) {
+      var archivo = /\.exe($|\?)/i.test(url) ? "windows" : (/\.dmg($|\?)/i.test(url) ? "mac" : "otro");
+      fbq("track", "Lead", { content_name: "descarga_demo_" + archivo, content_category: "descarga" });
+    } else if (url.indexOf("wa.me/") !== -1) {
+      fbq("track", "Contact", { content_name: "consulta_whatsapp_web", content_category: "consulta" });
+    }
+  }, true);   /* en captura: cuenta el click aunque el navegador corte la navegación */
+})();
+</script>
 <style>
   :root {
     --bg: #0F1216;
@@ -1406,8 +1458,7 @@ letter-spacing: -0.01em;
     <footer>
       <span>AutoValidador Pro</span>
       <a class="footer-link" href="#precios">Precios</a>
-      <a class="footer-link" href="guia-instalacion.pdf" target="_blank" rel="noopener">📄 Guía de instalación</a>
-      <a class="footer-link" href="guia-uso.pdf" target="_blank" rel="noopener">📖 Manual de uso</a>
+      <a class="footer-link" href="guia-instalacion.pdf" target="_blank" rel="noopener">📄 Guía de instalación y uso</a>
       <a class="footer-link" href="terminos.html">Términos y condiciones</a>
       <a class="footer-link" href="privacidad.html">Privacidad</a>
       <a class="footer-link" href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20hacerles%20una%20consulta" target="_blank" rel="noopener">💬 Contacto</a>
