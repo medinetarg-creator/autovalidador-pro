@@ -60,1433 +60,827 @@
   }, true);   /* en captura: cuenta el click aunque el navegador corte la navegación */
 })();
 </script>
+<!-- ══════════════════════════════════════════════════════════════════════════
+     Google Analytics 4 (AutoValidador Pro)
+     ÚNICO dato a pegar: el ID de medición, en la línea marcada abajo.
+     Se saca de: analytics.google.com → Administrar → Flujos de datos → el flujo
+     del sitio (autovalidapro.com.ar) → ID de medición, formato G-XXXXXXXXXX.
+
+     Qué se mide:
+       · page_view          → visita (lo manda GA4 solo, sin programar nada)
+       · generate_lead      → click en cualquier botón de descarga del demo
+       · contacto_whatsapp  → click en cualquier link de WhatsApp
+     Las dos de abajo son las conversiones de verdad; page_view es el piso.
+     La "medición mejorada" (scroll, tiempo de interacción, clics de salida) NO
+     se programa acá: viene prendida por defecto en el panel de GA4.
+     ══════════════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  var idGA = "G-H2S5L4BW2M";     /* ID de medición GA4 (cuenta autovalidadorpro@gmail.com) */
+
+  var esLocal = location.protocol === "file:" ||
+                /^(localhost|127\.0\.0\.1|\[::1\])$/i.test(location.hostname);
+  if (!idGA) { console.warn("[AVP] Google Analytics sin ID: no se envía ningún evento."); return; }
+  if (esLocal && !window.AVP_GA_FORZAR) return;   /* no ensuciar los datos desde pruebas locales */
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  window.gtag = gtag;
+
+  gtag("js", new Date());
+  gtag("config", idGA);
+
+  var t = document.createElement("script");
+  t.async = true;
+  t.src = "https://www.googletagmanager.com/gtag/js?id=" + idGA;
+  document.head.appendChild(t);
+
+  /* Las MISMAS dos conversiones que el píxel de Meta (descarga y WhatsApp), con
+     nombres propios de GA4 para no mezclar las dos herramientas al compararlas. */
+  document.addEventListener("click", function (ev) {
+    var el = ev.target;
+    var a = (el && el.closest) ? el.closest("a[href]") : null;
+    if (!a) return;
+    var url = a.getAttribute("href") || "";
+    if (url.indexOf("releases/latest/download") !== -1) {
+      var archivo = /\.exe($|\?)/i.test(url) ? "windows" : (/\.dmg($|\?)/i.test(url) ? "mac" : "otro");
+      gtag("event", "generate_lead", { content_name: "descarga_demo_" + archivo, content_category: "descarga" });
+    } else if (url.indexOf("wa.me/") !== -1) {
+      gtag("event", "contacto_whatsapp", { content_name: "consulta_whatsapp_web", content_category: "consulta" });
+    }
+  }, true);   /* en captura: cuenta el click aunque el navegador corte la navegación */
+})();
+</script>
+<script>document.documentElement.classList.add("js");</script>
 <style>
-  :root {
-    --bg: #0F1216;
-    --surface: #161B22;
-    --surface-2: #1B212B;
-    --border: #2A3140;
-    --border-strong: #38424F;
-    --ink: #E7EAEE;
-    --muted: #8B949E;
-    --accent: #2E7D5B;
-    --accent-hover: #25664A;
-    --accent-soft: rgba(46, 125, 91, 0.14);
-    --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, sans-serif;
+  :root{
+    --negro:#070B10;
+    --negro-2:#0A131A;
+    --panel:#0C161D;
+    --humo:#EDF4F8;
+    --gris:#93A7B4;
+    --gris-2:#6D818D;
+    --cian:#3CD2FF;
+    --menta:#4FE3A5;
+    --rojo:#FF8A7D;
+    --linea:rgba(255,255,255,.09);
+    --linea-cian:rgba(60,210,255,.22);
+    --max:1240px;
+    --ease:cubic-bezier(.16,.84,.28,1);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--negro);color:var(--humo);
+    font-family:"Archivo",system-ui,sans-serif;font-size:17px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--cian);outline-offset:3px}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 30px}
+  h1,h2,h3{letter-spacing:-.03em;margin:0}
+  h2{font-size:clamp(1.75rem,3.1vw,2.6rem);line-height:1.08;font-weight:800}
+  .intro{color:var(--gris);margin:14px 0 0;max-width:62ch;font-size:17px}
+
+  /* ── reveals ───────────────────────────────────────────────── */
+  .js .rev{opacity:0;transform:translateY(20px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+  .js .rev.in{opacity:1;transform:none}
+  .js .rev[data-d="1"]{transition-delay:.08s}
+  .js .rev[data-d="2"]{transition-delay:.16s}
+  .js .rev[data-d="3"]{transition-delay:.24s}
+  .js .rev[data-d="4"]{transition-delay:.32s}
+  .js .rev[data-d="5"]{transition-delay:.4s}
+  .js .rev[data-d="6"]{transition-delay:.48s}
+  @media (prefers-reduced-motion:reduce){
+    .js .rev{opacity:1;transform:none;transition:none}
   }
 
-  * { box-sizing: border-box; }
+  /* ── nav ───────────────────────────────────────────────────── */
+  .nav{
+    position:sticky;top:0;z-index:60;transition:background .3s,border-color .3s,padding .3s;
+    border-bottom:1px solid transparent;
+  }
+  .nav.fijo{background:rgba(7,11,16,.86);backdrop-filter:blur(14px);border-bottom-color:var(--linea)}
+  .nav-in{max-width:var(--max);margin:0 auto;padding:18px 30px;display:flex;align-items:center;gap:26px;transition:padding .3s}
+  .nav.fijo .nav-in{padding:12px 30px}
+  .marca{font-weight:800;letter-spacing:-.03em;font-size:19px;text-decoration:none}
+  .marca span{color:var(--cian)}
+  .nav nav{margin-left:auto;display:flex;align-items:center;gap:24px;font-size:14.5px}
+  .nav nav a{text-decoration:none;color:var(--gris);transition:color .2s}
+  .nav nav a:hover{color:var(--humo)}
+  .ver{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--gris);border:1px solid var(--linea);padding:3px 8px;border-radius:2px}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:16px;
+    padding:14px 22px;border-radius:3px;text-decoration:none;border:1px solid transparent;
+    transition:transform .18s var(--ease),background .18s,box-shadow .2s;cursor:pointer;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn-1{background:var(--cian);color:#04161c;box-shadow:0 12px 38px -12px rgba(60,210,255,.7)}
+  .btn-1:hover{background:#5fdcff}
+  .btn-2{border-color:rgba(237,244,248,.26);color:var(--humo)}
+  .btn-2:hover{background:rgba(237,244,248,.08)}
+  .btn-chico{padding:9px 15px;font-size:14px}
 
-  html, body { margin: 0; padding: 0; scroll-behavior: smooth; }
+  /* ── hero ──────────────────────────────────────────────────── */
+  .hero{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(115% 95% at 80% 26%,#0F3242 0%,#0A1720 42%,#070B10 72%)}
+  .hero-foto{
+    position:absolute;top:0;right:0;height:100%;width:63%;z-index:-2;
+    object-fit:cover;object-position:52% 50%;
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 14%,#000 34%);
+            mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 14%,#000 34%);
+    filter:saturate(1.12) contrast(1.06);
+  }
+  @media (prefers-reduced-motion:no-preference){.hero-foto{animation:respira 26s ease-in-out infinite alternate}}
+  @keyframes respira{from{transform:scale(1)}to{transform:scale(1.07)}}
+  .brillo{
+    position:absolute;right:6%;top:12%;width:52vw;height:52vw;max-width:720px;max-height:720px;z-index:-1;
+    background:radial-gradient(circle,rgba(60,210,255,.30) 0%,rgba(60,210,255,.10) 42%,transparent 68%);
+    filter:blur(28px);pointer-events:none;
+  }
+  @media (prefers-reduced-motion:no-preference){.brillo{animation:pulso 7s ease-in-out infinite}}
+  @keyframes pulso{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+  .hero-in{padding:70px 0 0;min-height:min(78vh,690px)}
+  .copy{max-width:min(600px,53%)}
+  .kicker{
+    display:inline-flex;align-items:center;gap:9px;font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--cian);
+    border:1px solid rgba(60,210,255,.4);padding:6px 12px;border-radius:2px;background:rgba(60,210,255,.08);
+  }
+  .kicker i{width:6px;height:6px;border-radius:50%;background:var(--cian);display:block}
+  @media (prefers-reduced-motion:no-preference){.kicker i{animation:lat 1.8s ease-in-out infinite}}
+  @keyframes lat{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(60,210,255,.6)}70%{opacity:.5;box-shadow:0 0 0 7px rgba(60,210,255,0)}}
+  h1{
+    margin:20px 0 0;font-size:clamp(2.2rem,4.1vw,3.7rem);line-height:1.02;
+    letter-spacing:-.035em;font-weight:800;
+  }
+  h1 .l{display:block;overflow:hidden}
+  h1 .l > span{display:block}
+  @media (prefers-reduced-motion:no-preference){
+    h1 .l > span{transform:translateY(105%);animation:sube .85s var(--ease) forwards}
+    h1 .l:nth-child(1) > span{animation-delay:.12s}
+    h1 .l:nth-child(2) > span{animation-delay:.24s}
+    h1 .l:nth-child(3) > span{animation-delay:.36s}
+  }
+  @keyframes sube{to{transform:none}}
+  h1 em{position:relative;font-style:normal;color:#fff;white-space:nowrap}
+  h1 em::after{
+    content:"";position:absolute;left:-2px;right:-2px;bottom:.06em;height:.14em;
+    background:linear-gradient(90deg,var(--cian),rgba(60,210,255,0));transform-origin:left;z-index:-1;
+  }
+  @media (prefers-reduced-motion:no-preference){h1 em::after{transform:scaleX(0);animation:tiza .7s var(--ease) .95s forwards}}
+  @keyframes tiza{to{transform:scaleX(1)}}
+  .sub{margin:22px 0 0;font-size:17.5px;line-height:1.55;color:#C4D6DF;max-width:44ch}
+  .sub b{color:#fff;font-weight:600}
+  .acciones{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .hechos{display:flex;gap:24px;flex-wrap:wrap;margin-top:24px;font-size:12.5px;color:var(--gris)}
+  .hechos span{display:flex;align-items:center;gap:7px}
+  .hechos span::before{content:"";width:5px;height:5px;background:var(--menta);border-radius:50%}
 
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--sans);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+  /* panel de vidrio */
+  .hud{
+    position:relative;z-index:4;margin-top:-34px;
+    border:1px solid var(--linea-cian);border-radius:8px;
+    background:rgba(9,18,24,.82);backdrop-filter:blur(16px) saturate(1.2);
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.04) inset;
+    display:grid;grid-template-columns:250px minmax(0,1fr);
   }
+  @media (prefers-reduced-motion:no-preference){.hud{animation:subeHud .9s var(--ease) .35s both}}
+  @keyframes subeHud{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  .hud-izq{padding:18px 20px;border-right:1px solid rgba(60,210,255,.16)}
+  .hud-et{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--gris)}
+  .hud-num{font-family:"IBM Plex Mono",monospace;font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1.1;margin-top:4px;white-space:nowrap}
+  .hud-num small{font-size:13px;color:var(--gris);font-weight:400}
+  .barra{height:3px;background:rgba(255,255,255,.1);margin-top:10px;border-radius:2px;overflow:hidden}
+  .barra i{display:block;height:100%;width:49.8%;background:linear-gradient(90deg,var(--menta),var(--cian))}
+  @media (prefers-reduced-motion:no-preference){.barra i{animation:crece 2.6s var(--ease) .6s both}}
+  @keyframes crece{from{width:0}}
+  .hud-vivo{display:flex;align-items:center;gap:7px;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--menta)}
+  .hud-vivo i{width:6px;height:6px;background:var(--menta);border-radius:50%;display:block}
+  table.filas{width:100%;border-collapse:collapse;font-size:12px}
+  table.filas th{text-align:left;font-weight:500;color:var(--gris);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;padding:12px 14px 8px}
+  table.filas td{padding:8px 14px;border-top:1px solid rgba(255,255,255,.05);font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:#C4D6DF;white-space:nowrap}
+  .ok{color:var(--menta);font-weight:600}
+  .no{color:var(--rojo);font-weight:600}
+  .cur{color:var(--cian)}
+  .ap{color:#5C6B73}
+  @media (prefers-reduced-motion:no-preference){
+    .f{opacity:0;animation:entra .5s ease-out forwards}
+    .f1{animation-delay:1.05s}.f2{animation-delay:1.25s}.f3{animation-delay:1.45s}.f4{animation-delay:1.65s}.f5{animation-delay:1.85s}
+  }
+  @keyframes entra{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
 
-  .wrap {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
+  .franja{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);margin-top:34px;background:rgba(255,255,255,.015)}
+  .franja-in{max-width:var(--max);margin:0 auto;padding:20px 30px;display:flex;gap:36px;flex-wrap:wrap;font-size:12.5px;color:var(--gris);font-family:"IBM Plex Mono",monospace}
+  .franja-in b{color:#fff;font-weight:500}
 
-  /* ---------- top bar ---------- */
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 28px 0 24px;
-    border-bottom: 1px solid var(--border);
-  }
-  .brand {
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .brand .pro { color: var(--accent); }
-  .head-right { display: flex; align-items: center; gap: 14px; }
-  .nav-link {
-    font-size: 14px;
-    color: var(--muted);
-    text-decoration: none;
-  }
-  .nav-link:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
-  .version {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 3px 8px;
-  }
+  /* ── secciones ─────────────────────────────────────────────── */
+  section{padding:76px 0}
+  .banda{border-top:1px solid var(--linea)}
 
-  /* ---------- hero ---------- */
-  .eyebrow {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 40px 0 14px;
+  /* método: línea que se dibuja */
+  .pasos{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:38px}
+  .pasos::before{content:"";position:absolute;left:0;right:0;top:6px;height:1px;background:var(--linea)}
+  .pasos::after{
+    content:"";position:absolute;left:0;top:6px;height:1px;width:100%;background:linear-gradient(90deg,var(--cian),var(--menta));
+    transform-origin:left;transform:scaleX(0);transition:transform 1.8s var(--ease) .2s;
   }
-  h1 {
-    font-size: 44px;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    font-weight: 650;
-    margin: 0 0 16px;
-    max-width: 18ch;
-  }
-  .sub {
-    color: var(--muted);
-    font-size: 17px;
-    max-width: 46ch;
-    margin: 0;
-  }
+  .js .pasos.in::after{transform:scaleX(1)}
+  .paso{padding:26px 24px 0 0}
+  .paso .n{display:inline-flex;align-items:center;gap:8px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;color:var(--cian);text-transform:uppercase}
+  .paso .n::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--negro);border:1px solid var(--cian);margin-top:-20px}
+  .paso h3{font-size:17px;margin:10px 0 6px;font-weight:700}
+  .paso p{margin:0;color:var(--gris);font-size:14.5px;line-height:1.5}
+  .nota{margin-top:30px;padding:16px 20px;border-left:3px solid var(--menta);background:rgba(79,227,165,.06);font-size:15.5px;max-width:82ch}
+  .nota b{color:#fff}
 
-  /* ---------- download cards ---------- */
-  .downloads {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 36px 0 14px;
+  /* prueba */
+  .prueba-cab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start}
+  .prueba-fig{margin-top:38px}
+  ul.limpia{list-style:none;padding:0;margin:20px 0 0}
+  ul.limpia li{padding:11px 0 11px 24px;border-bottom:1px solid var(--linea);font-size:15.5px;color:#C4D6DF;position:relative}
+  ul.limpia li:last-child{border-bottom:none}
+  ul.limpia li::before{content:"";position:absolute;left:0;top:19px;width:7px;height:7px;border:1px solid var(--cian);border-radius:50%}
+  figure{margin:0}
+  .marco{border:1px solid var(--linea-cian);border-radius:6px;overflow:hidden;position:relative;background:#fff}
+  .marco img{display:block;width:100%;height:auto}
+  .marco::after{
+    content:"";position:absolute;top:0;bottom:0;width:38%;
+    background:linear-gradient(90deg,transparent,rgba(60,210,255,.30),transparent);
+    pointer-events:none;
   }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    position: relative;
-    transition: border-color .18s ease, background .18s ease;
-  }
-  .card.is-detected {
-    border-color: var(--accent);
-    background: linear-gradient(180deg, var(--accent-soft), transparent 60%), var(--surface);
-  }
-  .card .os {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    margin: 0 0 2px;
-  }
-  .card .fmt {
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--muted);
-    /* Dos líneas reservadas: el texto de macOS ("Apple Silicon (M1 o posterior)")
-       es más largo que el de Windows y, al envolver, empujaba su botón más abajo.
-       Reservando la altura, los dos botones quedan a la misma altura. */
-    min-height: 3em;
-    margin: 0 0 22px;
-  }
-  .detect-badge {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    background: var(--accent-soft);
-    border-radius: 999px;
-    padding: 3px 10px;
-    display: none;
-  }
-  .card.is-detected .detect-badge { display: inline-block; }
+  @media (prefers-reduced-motion:no-preference){.marco::after{animation:barre 4.6s ease-in-out 1.2s infinite}}
+  @keyframes barre{0%{left:-40%}55%{left:100%}100%{left:100%}}
+  figcaption{font-size:12.5px;color:var(--gris);padding:10px 14px;border-top:1px solid var(--linea);background:rgba(255,255,255,.02)}
 
-  .btn {
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 15px;
-    color: #fff;
-    background: var(--accent);
-    border-radius: 8px;
-    padding: 13px 16px;
-    transition: background .15s ease;
+  /* ── PRECIOS (la sección con más animación) ────────────────── */
+  .precios-cab{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap}
+  .packs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px;align-items:stretch}
+  .pack{
+    position:relative;display:flex;flex-direction:column;
+    border:1px solid var(--linea);border-radius:10px;padding:28px 24px 26px;
+    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+    transition:transform .35s var(--ease),border-color .35s,box-shadow .35s,background .35s;
+    overflow:hidden;
   }
-  .btn:hover { background: var(--accent-hover); }
-  .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  .btn.secondary {
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--border-strong);
+  .pack::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;
+    background:radial-gradient(120% 80% at 50% -10%,rgba(60,210,255,.16),transparent 60%);
   }
-  .btn.secondary:hover { border-color: var(--muted); }
-  .btn.coming-soon {
-    background: var(--surface-2);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    cursor: default;
+  .pack:hover{transform:translateY(-6px);border-color:rgba(60,210,255,.4);box-shadow:0 30px 70px -30px rgba(60,210,255,.35)}
+  .pack:hover::before{opacity:1}
+  .pack.destacado{border-color:rgba(60,210,255,.45);background:linear-gradient(180deg,rgba(60,210,255,.10),rgba(60,210,255,.02))}
+  .pack.destacado::before{opacity:1}
+  .pack.destacado::after{
+    content:"";position:absolute;inset:-1px;border-radius:10px;pointer-events:none;
+    border:1px solid rgba(60,210,255,.55);
   }
-  .btn.coming-soon:hover { background: var(--surface-2); }
+  @media (prefers-reduced-motion:no-preference){
+    .pack.destacado::after{animation:halo 3.4s ease-in-out infinite}
+  }
+  @keyframes halo{0%,100%{opacity:.35;box-shadow:0 0 0 0 rgba(60,210,255,0)}50%{opacity:1;box-shadow:0 0 34px 2px rgba(60,210,255,.22)}}
+  .pack-tag{
+    position:absolute;top:0;right:0;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:#04161c;background:var(--cian);padding:5px 11px;border-bottom-left-radius:8px;
+  }
+  .pack-cant{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;color:var(--gris);text-transform:uppercase}
+  .pack h3{font-size:22px;margin:6px 0 0;letter-spacing:-.02em}
+  .pack-precio{
+    font-family:"IBM Plex Mono",monospace;font-size:clamp(30px,3.2vw,40px);font-weight:600;
+    letter-spacing:-.03em;line-height:1.1;margin:18px 0 0;white-space:nowrap;
+  }
+  .pack-precio .sig{font-size:.62em;color:var(--gris);font-weight:400}
+  .pack-unit{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--gris);margin-top:4px}
+  .pbar{height:2px;background:rgba(255,255,255,.09);border-radius:2px;overflow:hidden;margin:14px 0 0}
+  .pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--menta),var(--cian));transition:width 1.5s var(--ease) .3s}
+  .js .pack.in .pbar i{width:var(--w)}
+  .pack .btn{margin-top:22px;justify-content:center}
+  .pack ul{list-style:none;margin:20px 0 0;padding:0;font-size:14px;color:#C4D6DF}
+  .pack li{padding:7px 0 7px 20px;position:relative;border-top:1px solid rgba(255,255,255,.055)}
+  .pack li::before{content:"✓";position:absolute;left:0;color:var(--menta);font-size:12px}
+  .js .pack li{opacity:0;transform:translateY(6px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .js .pack.in li{opacity:1;transform:none}
+  .js .pack.in li:nth-child(1){transition-delay:.35s}
+  .js .pack.in li:nth-child(2){transition-delay:.42s}
+  .js .pack.in li:nth-child(3){transition-delay:.49s}
+  .js .pack.in li:nth-child(4){transition-delay:.56s}
+  .js .pack.in li:nth-child(5){transition-delay:.63s}
+  .a-medida{
+    margin-top:26px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;
+    padding:20px 24px;border:1px dashed rgba(255,255,255,.16);border-radius:8px;
+  }
+  .a-medida p{margin:0;color:var(--gris);font-size:15px}
+  .a-medida b{color:#fff}
+  .fuente{font-size:12.5px;color:var(--gris-2);margin:18px 0 0;max-width:80ch;line-height:1.6}
 
-  .link-light {
-    display: block;
-    text-align: center;
-    font-size: 13px;
-    color: var(--muted);
-    text-decoration: none;
-    margin-top: 12px;
-  }
-  .link-light:hover { color: var(--ink); }
-  .link-light:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  /* demo */
+  .demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center}
+  .descargas{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .micro{font-size:13px;color:var(--gris);margin:14px 0 0}
+  .pasos-min{display:flex;gap:26px;margin-top:22px;font-size:13.5px;color:var(--gris);flex-wrap:wrap;font-family:"IBM Plex Mono",monospace}
+  .pasos-min b{color:var(--humo)}
 
-  .detect-line {
-    font-size: 14px;
-    color: var(--muted);
-    margin: 0 0 8px;
-  }
-  .detect-line strong { color: var(--ink); font-weight: 600; }
+  /* para vos */
+  .filtro{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:34px}
+  .filtro > div{padding:4px 30px 0 0}
+  .filtro > div + div{border-left:1px solid var(--linea);padding-left:34px;padding-right:0}
+  .filtro h3{font-size:14px;letter-spacing:.02em;margin:0 0 14px}
+  .filtro .si h3{color:var(--menta)}
+  .filtro .no h3{color:var(--rojo)}
+  .filtro ul{list-style:none;margin:0;padding:0;font-size:15px;color:#C4D6DF}
+  .filtro li{padding:10px 0;border-top:1px solid var(--linea);line-height:1.5}
+  .filtro li b{color:#fff;font-weight:600}
 
-  /* ---------- install steps ---------- */
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin: 44px 0 0;
-    padding-top: 28px;
-    border-top: 1px solid var(--border);
-  }
-  .step .n {
-    font-family: var(--mono);
-    color: var(--accent);
-    font-size: 13px;
-  }
-  .step h2 {
-    font-size: 15px;
-    font-weight: 600;
-    margin: 6px 0 4px;
-  }
-  .step p {
-    color: var(--muted);
-    font-size: 14px;
-    margin: 0;
-  }
-  .step a {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .step a:hover { color: var(--ink); }
+  /* la cuenta */
+  table.cuenta{width:100%;border-collapse:collapse;font-size:15.5px;margin-top:30px}
+  table.cuenta td{padding:15px 16px;border-bottom:1px solid var(--linea);color:#C4D6DF}
+  table.cuenta td:last-child{text-align:right;font-family:"IBM Plex Mono",monospace;white-space:nowrap;color:#fff}
+  table.cuenta tr.destaca td{background:rgba(60,210,255,.07);color:#fff;font-weight:600}
+  table.cuenta tr.destaca td:last-child{color:var(--cian)}
 
-  /* ---------- pricing ---------- */
-  .pricing {
-    margin: 56px 0 0;
-    padding-top: 36px;
-    border-top: 1px solid var(--border);
+  /* faq */
+  .faq{margin-top:34px;border-top:1px solid var(--linea)}
+  details{border-bottom:1px solid var(--linea)}
+  summary{
+    cursor:pointer;list-style:none;padding:20px 44px 20px 0;position:relative;
+    font-size:17px;font-weight:600;letter-spacing:-.01em;
   }
-  .pricing h2 {
-    font-size: 30px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 650;
-    margin: 0 0 10px;
+  summary::-webkit-details-marker{display:none}
+  summary::after{
+    content:"";position:absolute;right:8px;top:50%;width:9px;height:9px;margin-top:-6px;
+    border-right:1.5px solid var(--cian);border-bottom:1.5px solid var(--cian);
+    transform:rotate(45deg);transition:transform .3s var(--ease);
   }
-  .pricing .lede {
-    color: var(--muted);
-    font-size: 16px;
-    max-width: 52ch;
-    margin: 0 0 28px;
-  }
-  /* El texto del módulo SSSalud va más ancho que el resto de la sección: centrado,
-     pero sin caer en una columna angosta que lo haga parecer un muro de texto. */
-  .pricing .modulo-texto { max-width: 820px; margin: 0 auto; }
-  .pricing .modulo-texto .lede { max-width: none; }
-  /* El h2 de un .modulo-texto no es hijo directo de .pricing: la regla general no lo alcanza */
-  .pricing .modulo-texto h2 { text-align: center; }
-  .plans {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    align-items: stretch;
-  }
-  /* La tarjeta de precio a medida ocupa la fila entera: no compite con los tres packs */
-  .plan-wide { grid-column: 1 / -1; }
-  .plan-wide .btn { max-width: 360px; margin: 6px auto 0; }
-  .plan {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-  .plan.featured {
-    border-color: var(--accent);
-    background: linear-gradient(180deg, var(--accent-soft), transparent 55%), var(--surface);
-  }
-  .plan .tag {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    background: var(--accent-soft);
-    border-radius: 999px;
-    padding: 3px 10px;
-  }
-  .plan .name {
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0 0 2px;
-  }
-  .plan .vol {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    margin: 0 0 18px;
-  }
-  .plan .price {
-    font-size: 32px;
-    font-weight: 650;
-    letter-spacing: -0.025em;
-    line-height: 1;
-    margin: 0 0 4px;
-  }
-  .plan .price small {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    letter-spacing: 0;
-  }
-  .plan .unit {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    margin: 0 0 18px;
-  }
-  .plan ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 22px;
-    flex: 1;
-  }
-  .plan li {
-    position: relative;
-    padding-left: 22px;
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 9px;
-  }
-  .plan li::before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 13px;
-  }
-  .plan li strong { color: var(--ink); font-weight: 600; }
+  details[open] summary::after{transform:rotate(-135deg)}
+  details p{margin:0 0 22px;color:var(--gris);max-width:80ch;font-size:15.5px;line-height:1.6}
+  details[open] p{animation:abre .4s var(--ease)}
+  @keyframes abre{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
-  .packs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 16px 0 0;
+  /* cierre */
+  .cierre{
+    position:relative;overflow:hidden;border-top:1px solid var(--linea);
+    background:radial-gradient(90% 120% at 50% 120%,rgba(60,210,255,.16),transparent 60%);
   }
-  .pack {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .pack .p-name { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
-  .pack .p-note { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0; }
-  .pack .p-price { font-size: 22px; font-weight: 650; letter-spacing: -0.02em; white-space: nowrap; }
+  .cierre-in{padding:86px 0;text-align:center}
+  .cierre h2{max-width:22ch;margin:0 auto}
+  .cierre .acciones{justify-content:center}
+  .cierre p{color:var(--gris);margin:16px auto 0;max-width:52ch}
 
-  .addon {
-    margin: 16px 0 0;
-    padding: 20px 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .addon .a-name { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
-  .addon .a-note { font-size: 14px; color: var(--muted); margin: 0; max-width: 46ch; }
-  .addon .a-price { font-size: 22px; font-weight: 650; letter-spacing: -0.02em; white-space: nowrap; }
+  footer{border-top:1px solid var(--linea);padding:36px 0 48px;font-size:13px;color:var(--gris-2)}
+  .pie{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+  .pie a{text-decoration:none;margin-left:20px}
+  .pie a:hover{color:var(--humo)}
+  .legal{margin-top:22px;max-width:96ch;line-height:1.6;font-size:11.5px;color:#55636D}
 
-  .unit-note {
-    margin: 20px 0 0;
-    padding: 20px 24px;
-    border-left: 2px solid var(--accent);
-    background: var(--surface-2);
-    border-radius: 0 10px 10px 0;
-    font-size: 14px;
-    color: var(--muted);
-  }
-  .unit-note strong { color: var(--ink); font-weight: 600; }
-  .unit-note .un-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--ink);
-    margin: 0 0 14px;
-  }
-  .unit-note .un-steps {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .unit-note .un-steps li {
-    position: relative;
-    padding-left: 28px;
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-  .unit-note .un-steps li:last-child { margin-bottom: 0; }
-  .unit-note .un-steps li .n {
-    position: absolute;
-    left: 0;
-    top: 1px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--accent);
-  }
-  .unit-note .un-foot {
-    margin: 16px 0 0;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
-    font-size: 14px;
-    color: var(--ink);
-  }
-  .unit-note .un-body {
-    margin: 0 0 18px;
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--muted);
-  }
-  .unit-note .un-body + .btn { margin-top: 0; }
-  /* El bloque de cierre va centrado: título, texto y botón */
-  #demo { text-align: center; }
-  #demo .btn.whatsapp { display: inline-block; margin: 0 auto; }
-  .data-note {
-    margin: 26px auto 0;
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--muted);
-    max-width: 68ch;
-  }
-  .data-note strong { color: var(--ink); font-weight: 600; }
-  .data-note { text-align: center; }
 
-  .why {
-    margin: 36px 0 0;
-    padding: 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+  /* ── piezas nuevas de producción ───────────────────────────── */
+  .pack-para{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--gris);margin-top:8px;line-height:1.45;letter-spacing:.01em}
+  .pack-rule{height:1px;width:0;margin-top:14px;background:linear-gradient(90deg,var(--cian),rgba(60,210,255,0));transition:width .9s var(--ease) .3s}
+  .js .pack.in .pack-rule{width:52px}
+  .link-light{display:inline-block;font-size:13.5px;color:var(--gris);text-decoration:underline;text-decoration-color:rgba(60,210,255,.5);text-underline-offset:3px;transition:color .2s}
+  .link-light:hover{color:var(--humo)}
+  .downloads .link-light{width:100%;margin-top:2px}
+  .descargas{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;align-items:center}
+  .demo-wa{margin-top:26px;padding-top:22px;border-top:1px solid var(--linea)}
+  .demo-wa p{margin:0 0 12px;font-size:14.5px;color:var(--gris)}
+  .cierre-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center}
+  .cierre-txt{text-align:left}
+  .cierre-txt .acciones{justify-content:flex-start}
+  .cierre-txt h2{max-width:20ch}
+  .cierre-txt p{color:var(--gris);margin:16px 0 0;max-width:44ch}
+  .cierre-fig{position:relative}
+  .cierre-fig img{
+    display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--linea-cian);
+    box-shadow:0 40px 90px -40px rgba(0,0,0,.9);filter:saturate(1.05)
   }
-  .why h3 {
-    font-size: 17px;
-    font-weight: 600;
-    margin: 0 0 16px;
-  }
-  .why table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-  }
-  .why th, .why td {
-    text-align: left;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    color: var(--muted);
-  }
-  .why th {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-  .why td:last-child, .why th:last-child { text-align: right; }
-  .why tbody tr:last-child td { border-bottom: none; }
-  .why td.hl { color: var(--ink); font-weight: 600; }
-  .why tr.best td { color: var(--ink); }
-  .why tr.best td.hl { color: var(--accent); }
-  .why .foot {
-    margin: 16px 0 0;
-    font-size: 13px;
-    color: var(--muted);
+  .cierre-fig::after{
+    content:"";position:absolute;inset:0;border-radius:8px;pointer-events:none;
+    background:linear-gradient(200deg,rgba(60,210,255,.10),transparent 55%)
   }
 
-  .alta {
-    margin: 0 0 30px;
-    padding: 20px 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+  /* ── responsive ────────────────────────────────────────────── */
+  @media (max-width:1180px){
+    .copy{max-width:min(560px,56%)}
+    h1{font-size:clamp(2rem,4.4vw,3.1rem)}
+    .hud{grid-template-columns:210px minmax(0,1fr)}
+    .hud-num{font-size:27px}
   }
-  .alta .a-head { display: flex; align-items: baseline; justify-content: space-between;
-                  gap: 18px; flex-wrap: wrap; margin: 0 0 14px; }
-  .alta .a-title { font-size: 16px; font-weight: 650; margin: 0; color: var(--ink); }
-  .alta .a-price { font-size: 27px; font-weight: 650; letter-spacing: -0.02em; margin: 0;
-                   color: var(--ink); white-space: nowrap; }
-  .alta .a-price span { font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
-  /* La concesión que hay que ver primero: el número, grande y en el acento. */
-  .alta .a-gift { margin: 0 0 14px; padding: 12px 16px; border-radius: 10px;
-                  background: var(--accent-soft); border-left: 3px solid var(--accent);
-                  font-size: 18px; font-weight: 650; color: var(--ink);
-                  letter-spacing: -0.01em; line-height: 1.3; }
-  .alta .a-gift .a-num { color: var(--accent); }
-.alta .a-key {
-margin: 0 0 12px;
-font-size: 16.5px;
-font-weight: 650;
-color: var(--ink);
-letter-spacing: -0.01em;
-}
-  .alta .a-desc { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.55; }
-
-  .fineprint {
-    margin: 18px 0 0;
-    font-size: 13px;
-    color: var(--muted);
+  @media (max-width:940px){
+    .cierre-grid{grid-template-columns:1fr;gap:30px}
+    .cierre-fig{order:-1}
+    .hero-foto{
+      width:100%;object-position:56% 26%;opacity:.5;
+      -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.95) 0%,rgba(0,0,0,.35) 58%,transparent 100%);
+              mask-image:linear-gradient(to bottom,rgba(0,0,0,.95) 0%,rgba(0,0,0,.35) 58%,transparent 100%);
+    }
+    .brillo{right:-20%;top:2%;width:80vw;height:80vw}
+    .hero-in{min-height:0;padding:44px 0 30px}
+    .copy{max-width:100%}
+    .hud{grid-template-columns:1fr;margin-top:-18px}
+    .hud-izq{border-right:none;border-bottom:1px solid rgba(60,210,255,.16)}
+    .prueba-cab,.demo{grid-template-columns:1fr;gap:24px}
+    .prueba-fig{margin-top:26px}
+    .packs{grid-template-columns:1fr;gap:16px}
+    .pasos{grid-template-columns:1fr 1fr}
+    .paso{padding:24px 20px 0 0}
+    .filtro{grid-template-columns:1fr}
+    .filtro > div{padding-left:0;padding-right:0}
+    .filtro > div + div{border-left:none;border-top:1px solid var(--linea);padding-left:0;padding-top:26px;margin-top:26px}
+    section{padding:56px 0}
+    .nav nav a:not(.btn){display:none}
   }
-
-  .btn.whatsapp {
-    display: inline-block;
-    width: auto;
-    background: #25D366;
-  }
-  .btn.whatsapp:hover { background: #1fb457; }
-
-  /* ---------- para quién es ---------- */
-  .forwho {
-    margin: 40px 0 0;
-    padding-top: 28px;
-    border-top: 1px solid var(--border);
-  }
-  .forwho h2 {
-    font-size: 22px;
-    font-weight: 650;
-    letter-spacing: -0.02em;
-    margin: 0 0 18px;
-  }
-  .forwho-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .forwho-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-  }
-  .forwho-box h3 {
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0 0 12px;
-  }
-  .forwho-box.yes h3 { color: var(--accent); }
-  .forwho-box.no h3 { color: var(--muted); }
-  .forwho-box ul { list-style: none; padding: 0; margin: 0; }
-  .forwho-box li {
-    position: relative;
-    padding-left: 22px;
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 9px;
-  }
-  .forwho-box li:last-child { margin-bottom: 0; }
-  .forwho-box.yes li::before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 13px;
-  }
-  .forwho-box.no li::before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    color: var(--muted);
-    font-size: 13px;
-  }
-  .forwho-box li strong { color: var(--ink); font-weight: 600; }
-  .forwho .who-foot {
-    margin: 16px 0 0;
-    font-size: 14px;
-    color: var(--muted);
-    max-width: 68ch;
-  }
-  .forwho .who-foot strong { color: var(--ink); font-weight: 600; }
-  .forwho .who-foot a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
-  .forwho .who-foot a:hover { color: var(--ink); }
-
-  /* ---------- descargas (bloque de cierre) ---------- */
-  .download {
-    margin: 56px 0 0;
-    padding-top: 36px;
-    border-top: 1px solid var(--border);
-  }
-  .download h2 {
-    font-size: 30px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 650;
-    margin: 0 0 10px;
-  }
-  .download .lede {
-    color: var(--muted);
-    font-size: 16px;
-    max-width: 52ch;
-    margin: 0 0 28px;
-  }
-  .download .unit-note { margin-top: 36px; }
-  .wa-note {
-    margin: 14px 0 0;
-    font-size: 12.5px;
-    text-align: center;
-    color: var(--muted);
-  }
-  .wa-note a {
-    color: var(--muted);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .wa-note a:hover { color: var(--ink); }
-
-  /* ---------- mecanismo (bloque 4) ---------- */
-  .metodo {
-    margin: 56px 0 0;
-    padding-top: 36px;
-    border-top: 1px solid var(--border);
-  }
-  .metodo h2 {
-    font-size: 30px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 650;
-    margin: 0 0 10px;
-  }
-  .metodo .lede {
-    color: var(--muted);
-    font-size: 16px;
-    max-width: 52ch;
-    margin: 0 0 28px;
-  }
-  .metodo .mecanismo { margin-top: 0; }
-  .mecanismo {
-    margin: 16px 0 0;
-    padding: 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--accent);
-    border-radius: 0 12px 12px 0;
-  }
-  .mecanismo .m-steps { list-style: none; padding: 0; margin: 0 0 16px; }
-  .mecanismo .m-steps li {
-    position: relative;
-    padding-left: 28px;
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .mecanismo .m-steps li:last-child { margin-bottom: 0; }
-  .mecanismo .m-steps li .n {
-    position: absolute;
-    left: 0;
-    top: 1px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--accent);
-  }
-  .mecanismo .m-steps li strong { color: var(--ink); font-weight: 600; }
-  .mecanismo .m-foot {
-    margin: 0;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    font-size: 13.5px;
-    color: var(--muted);
-  }
-  /* El diferencial (no se paga por lo descartado) va en su propia línea y destacado:
-     es la parte que le importa al cliente, no la explicación del mecanismo. */
-  .mecanismo .m-key {
-    margin: 10px 0 0;
-    font-size: 16.5px;
-    font-weight: 650;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-  .m-diff {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin: 18px 0 0;
-  }
-  .m-diff div {
-    font-size: 13.5px;
-    line-height: 1.5;
-    color: var(--muted);
-  }
-  .m-diff strong {
-    display: block;
-    color: var(--ink);
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-
-  /* ---------- oferta (bloque 5) ---------- */
-  .oferta {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin: 16px 0 0;
-  }
-  .o-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-  }
-  .o-card .o-tag {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 8px;
-  }
-  .o-card h4 {
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0 0 6px;
-  }
-  .o-card p {
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--muted);
-    margin: 0;
-  }
-  .o-card p strong { color: var(--ink); font-weight: 600; }
-
-  /* ---------- footer ---------- */
-  footer {
-    margin: 48px 0 32px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 13px;
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  footer a.footer-link {
-    color: var(--muted);
-    text-decoration: none;
-  }
-  footer a.footer-link:hover { color: var(--ink); text-decoration: underline; }
-  footer a.footer-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-
-  /* ---------- bloques nuevos del reposicionamiento ---------- */
-  .sub-hero {
-    margin: 14px 0 0;
-    color: var(--ink);
-    font-size: 16px;
-    max-width: 52ch;
-  }
-  .bloque {
-    margin: 56px 0 0;
-    padding-top: 36px;
-    border-top: 1px solid var(--border);
-  }
-  .bloque > h2 {
-    font-size: 30px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 650;
-    margin: 0 0 10px;
-  }
-  .prob-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    align-items: stretch;
-  }
-  .prob-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 22px;
-  }
-  .prob-item .p-t {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 10px;
-  }
-  .prob-item h3 {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.3;
-    margin: 0 0 8px;
-  }
-  .prob-item p:last-child {
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--muted);
-    margin: 0;
-  }
-
-  @media (max-width: 760px) {
-    .plans { grid-template-columns: 1fr; }
-    /* La oferta pasa de 3 a 2 columnas antes de apilarse: a 3 se hacían muy altas */
-    .oferta { grid-template-columns: 1fr 1fr; }
-  }
-
-  @media (max-width: 620px) {
-    h1 { font-size: 34px; }
-    .pricing h2 { font-size: 26px; }
-    .download h2 { font-size: 26px; }
-    .metodo h2 { font-size: 26px; }
-    .forwho-grid { grid-template-columns: 1fr; }
-    .m-diff { grid-template-columns: 1fr; }
-    .m-diff-detalle { grid-template-columns: 1fr; }
-    .prob-grid { grid-template-columns: 1fr; }
-    .bloque > h2 { font-size: 26px; }
-    .oferta { grid-template-columns: 1fr; }
-    .downloads, .steps, .packs { grid-template-columns: 1fr; }
-    .plan .price { font-size: 28px; }
-    .alta .a-price { font-size: 22px; }
-    .alta .a-gift { font-size: 16px; }
-    .why table { font-size: 13px; }
-    .why th, .why td { padding: 8px 6px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; }
-    html, body { scroll-behavior: auto; }
-  }
-
-    /* ================= HERO CENTRADO ================= */
-    .hero { text-align: center; padding: 6px 0 2px; }
-    .hero .eyebrow { margin: 30px 0 16px; }
-    .hero h1 { margin: 0 auto 18px; max-width: 22ch; }
-    .hero .sub { margin: 0 auto; max-width: 56ch; }
-    .hero .sub-hero { margin: 16px auto 0; max-width: 46ch; }
-
-    /* ================= BENEFICIOS CLAVE (arriba) ================= */
-    .beneficios { margin: 34px 0 0; }
-    .beneficios ul { list-style: none; padding: 0; margin: 0; display: grid;
-                     grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .beneficios li { background: var(--surface); border: 1px solid var(--border);
-                     border-radius: 12px; padding: 16px 16px 15px; }
-    .beneficios .b-ico { display: inline-flex; width: 34px; height: 34px; border-radius: 9px;
-                         background: var(--accent-soft); color: var(--accent);
-                         align-items: center; justify-content: center; margin-bottom: 11px; }
-    .beneficios b { display: block; font-size: 14.5px; margin-bottom: 5px; color: var(--ink); }
-    .beneficios p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
-    @media (max-width: 900px) { .beneficios ul { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 560px) { .beneficios ul { grid-template-columns: 1fr; } }
-
-    /* ================= CORTE ANTES DEL DETALLE ================= */
-    .detalle-corte { margin: 58px 0 0; padding-top: 38px; border-top: 1px solid var(--border-strong);
-                     text-align: center; }
-    .detalle-corte .eyebrow { margin: 0 0 12px; }
-    .detalle-corte h2 { margin: 0 0 12px; }
-    .detalle-corte .lede { margin: 0 auto; }
-    .detalle-corte + .bloque { border-top: 0; padding-top: 0; margin-top: 40px; }
-
-    /* Los diferenciadores bajaron del método al detalle: dos columnas, no tres.
-       (El tercero se sacó: repetía el .m-foot del mecanismo palabra por palabra.) */
-    .m-diff-detalle { grid-template-columns: 1fr 1fr; margin: 26px 0 0; text-align: left; }
-
-    /* ---------- cómo se paga (la secuencia: compra del pack) ---------- */
-    .como-paga { margin: 36px 0 30px; padding: 22px 26px; background: var(--surface-2);
-                 border: 1px solid var(--border); border-radius: 12px; }
-    .como-paga .cp-t { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em;
-                       text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
-    .como-paga ol { list-style: none; padding: 0; margin: 0 0 16px; }
-    .como-paga li { position: relative; padding-left: 34px; margin-bottom: 14px; }
-    .como-paga li:last-child { margin-bottom: 0; }
-    .como-paga .cp-n { position: absolute; left: 0; top: 1px; width: 22px; height: 22px;
-                       border-radius: 999px; background: var(--accent-soft); color: var(--accent);
-                       font-family: var(--mono); font-size: 12px; display: flex;
-                       align-items: center; justify-content: center; }
-    .como-paga li div { font-size: 14px; color: var(--muted); line-height: 1.55; }
-    .como-paga li strong { color: var(--ink); font-weight: 600; }
-    .como-paga .cp-foot { margin: 0; padding-top: 15px; border-top: 1px solid var(--border);
-                          font-size: 14px; color: var(--muted); line-height: 1.55; }
-    .como-paga .cp-foot strong { color: var(--ink); font-weight: 600; }
-
-    /* ---------- encabezado de precios centrado ---------- */
-    .pricing > .eyebrow, .pricing > h2 { text-align: center; }
-    .pricing > .lede { text-align: center; margin: 0 auto 30px; }
-
-    .alta .a-gift .a-nv { font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
-  /* ---------- Lo que ves en pantalla ---------- */
-  .hero-shot {
-    display: block;
-    margin: 34px auto 0;
-    width: 100%;
-    max-width: 880px;
-    height: auto;
-    border-radius: 12px;
-  }
-
-  .pantalla {
-    margin: 56px 0 0;
-    padding-top: 36px;
-    border-top: 1px solid var(--border);
-    text-align: center;
-  }
-  .pantalla h2 {
-    font-size: 30px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 650;
-    margin: 0 0 10px;
-  }
-  .pantalla .lede { margin: 0 auto 36px; max-width: 60ch; }
-  .shot { margin: 0 auto 34px; }
-  .shot .s-tag {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 12px;
-  }
-  .shot .s-box {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--surface);
-    padding: 10px;
-    overflow: hidden;
-  }
-  .shot .s-box img { display: block; width: 100%; height: auto; border-radius: 7px; }
-  .shot .s-cap {
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.55;
-    max-width: 62ch;
-    margin: 14px auto 0;
-  }
-  .shot-diseno .s-box { max-width: 940px; margin: 0 auto; }
-  .shot-diseno img { border-radius: 7px; }
-  .shot-sistema .s-box { max-width: 600px; margin: 0 auto; }
-  .shot-planilla .s-box { max-width: 940px; margin: 0 auto; }
-  .pantalla .s-nota {
-    color: var(--muted);
-    font-size: 13px;
-    margin: 28px 0 0;
-  }
-  @media (max-width: 640px) {
-    .pantalla h2 { font-size: 25px; }
-    .shot .s-box { padding: 6px; }
-    .shot-sistema .s-box, .shot-planilla .s-box { overflow-x: auto; }
-    .shot-sistema img { min-width: 520px; }
-    .shot-planilla img { min-width: 680px; }
-    .shot .s-cap { font-size: 14px; }
-  }
-
-  /* ================= TODO EL TEXTO CENTRADO =================
-     El usuario lo pidió así: "se vería mejor toda la web centrada, tanto para móvil
-     como para PC". Centrar solo los contenedores NO alcanza: las viñetas (✓ / —), los
-     números de los pasos y las bandas en flex (.alta .a-head, .pack, footer) tienen los
-     extremos separados a propósito, y si no se tocan queda el texto centrado con el
-     marcador colgado en el borde izquierdo, que se ve peor que antes.
-     Acá los marcadores pasan a ir EN LÍNEA y las bandas a `justify-content: center`.
-     Única excepción: la tabla "¿Por qué se paga solo?" — es una grilla de datos
-     comparativos con una columna de números, y centrar las celdas la vuelve ilegible. */
-  .beneficios, .pantalla, .metodo, .mecanismo, .pricing, .download, .bloque, .forwho, footer,
-  .beneficios li, .mecanismo .m-foot, .alta, .como-paga, .plan, .pack, .o-card, .card, .step,
-  .prob-item, .forwho-box, .unit-note
-  { text-align: center; }
-
-  /* encabezados y párrafos con ancho máximo: centrarlos también como bloque */
-  .metodo h2, .metodo .lede, .pricing .lede, .bloque > h2, .download h2, .download .lede,
-  .forwho h2, .forwho .who-foot, .alta .a-desc, .como-paga .cp-foot, .unit-note .un-foot
-  { margin-left: auto; margin-right: auto; }
-
-  /* bandas que tenían los extremos separados -> al centro */
-  .alta .a-head, .pack, footer { justify-content: center; }
-
-  /* los números de los pasos dejan de estar colgados a la izquierda */
-  .unit-note .un-steps li, .como-paga li { padding-left: 0; }
-
-  .unit-note .un-steps li .n { position: static; margin-right: 7px; }
-
-  /* ---- EXCEPCIÓN: los 4 pasos del Método Dos Etapas quedan a la izquierda ----
-     El usuario los pidió expresamente sin centrar. Son cuatro líneas que se leen
-     como una secuencia (01 ARCA -> 02 Filtro -> 03 SSSalud -> 04 Tu planilla) y
-     con el número en el margen izquierdo se sigue el orden de un vistazo; centrados
-     el número queda en medio de la frase y se pierde la lectura de lista. El pie
-     del bloque (.m-foot) sí queda centrado. */
-  .mecanismo .m-steps li { text-align: left; }
-
-  /* ---- EXCEPCIÓN: las dos listas de ítems ----
-     Las características de cada plan y las de "¿Es para vos?". Ahí cada ítem ocupa
-     una o dos líneas y lleva marcador (✓ / —) al principio: centrados, la segunda
-     línea queda centrada abajo de la primera y los marcadores arman un borde
-     izquierdo irregular, así que la lista deja de poder recorrerse de un vistazo —
-     justo en los dos lugares donde el texto enumera lo que el cliente recibe.
-     Se centra el título de la tarjeta; la lista adentro queda a la izquierda.
-     Esto y la tabla comparativa son lo único que no se centra. */
-  .plan ul, .plan li, .forwho-box ul, .forwho-box li { text-align: left; }
-
-  .como-paga .cp-n {
-    position: static; display: inline-flex; vertical-align: middle; margin-right: 8px;
-  }
-  .como-paga li > div { display: inline; }
-  /* Letra chica y nota de datos: caja centrada (margenes automaticos) y ancho de lectura
-     como el del resto de los parrafos. Centrar solo el texto no alcanza: la caja queda
-     anclada a la izquierda y el centrado no se ve. */
-  .data-note, .fineprint {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 620px;
+  @media (max-width:620px){
+    body{font-size:16px}
+    .wrap,.nav-in{padding-left:18px;padding-right:18px}
+    .acciones .btn,.descargas .btn{width:100%;justify-content:center}
+    .hud table .col-cob{display:none}
+    table.filas th,table.filas td{padding-left:10px;padding-right:10px}
+    .packs .pack{padding:24px 20px}
+    .pasos{grid-template-columns:1fr}
+    .paso .n::before{display:none}
+    .pasos::before,.pasos::after{display:none}
+    .paso{border-top:1px solid var(--linea);padding-top:18px}
+    .franja-in{gap:14px 26px;font-size:11.5px}
+    .cierre-in{padding:60px 0}
   }
 </style>
 </head>
 <body>
-  <div class="wrap">
 
-    <header>
-      <span class="brand">AutoValidador <span class="pro">Pro</span></span>
-      <span class="head-right">
-        <a class="nav-link" href="#precios">Precios</a>
-        <a class="nav-link" href="#descargar">Descargar</a>
-        <span class="version">v1.5.0</span>
-      </span>
-    </header>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="marca" href="#top">AutoValidador<span> Pro</span></a>
+    <nav>
+      <a href="#metodo">Cómo funciona</a>
+      <a href="#precios">Precios</a>
+      <a href="#descargar">Descargar</a>
+      <span class="ver mono">v1.5.0</span>
+    </nav>
+  </div>
+</header>
 
-    <div class="hero">
-      <p class="eyebrow">Para brokers, asesores y supervisores comerciales de salud</p>
-      <h1>Dejá de perder horas verificando CUIL y recuperá tiempo para cerrar ventas.</h1>
-      <p class="sub">AutoValidador Pro chequea <strong>aportes en ARCA</strong> y
-      <strong>cobertura en SSSalud</strong> solo, sin captcha ni tipeo, y escribe los
-      resultados en una planilla de Google Sheets que <strong>te dejamos armada</strong>.</p>
-      <img class="hero-shot" src="img/programa-en-notebook.jpg"
-        width="912" height="637" decoding="async"
-        alt="AutoValidador Pro validando aportes en ARCA y cobertura en SSSalud desde una notebook">
-    </div>
-
-    
-
-    <section class="beneficios">
-      <ul>
-        <li><span class="b-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg></span><b>De cientos de horas a minutos</b>
-          <p>Lo que a mano son 167 a 500 horas, corre solo.</p></li>
-        <li><span class="b-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 2.8 4.6 13.4h6.1l-.9 7.8 8.6-10.6h-6.1z"/></svg></span><b>Sin captcha ni tipeo</b>
-          <p>Se conecta a ARCA y a SSSalud y verifica sin que abrás el navegador.</p></li>
-        <li><span class="b-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19.4c0-3.3 2.8-5.4 6.2-5.4s6.2 2.1 6.2 5.4"/><path d="M16.4 6.2a3 3 0 0 1 0 5.6M17.6 14.6c2.3.6 3.8 2.2 3.8 4.8"/></svg></span><b>Más capacidad, la misma gente</b>
-          <p>Tu equipo procesa bases enteras en vez de casos sueltos.</p></li>
-        <li><span class="b-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 8.5h16M4 13.5h16M9.5 8.5V21"/></svg></span><b>Todo queda en tu planilla</b>
-          <p>Te dejamos la plantilla armada. Si usás Excel, la importás.</p></li>
-      </ul>
-    </section>
-
-        <section class="pantalla" id="pantalla">
-      <p class="eyebrow">En pantalla</p>
-      <h2>Lo que ves en pantalla es lo que aparece en tu planilla.</h2>
-      <p class="lede">El panel corre en tu equipo, y cada fila se escribe con su resultado en la
-      planilla de Google Sheets que te dejamos armada. Si trabajás en Excel, la importás.</p>
-      
-
-      <figure class="shot shot-diseno">
-        <div class="s-box">
-          <a href="img/diseno-escritorio.jpg" target="_blank" rel="noopener">
-            <img src="img/diseno-escritorio.jpg" width="1604" height="656" loading="lazy"
-              alt="AutoValidador Pro corriendo en una notebook: el panel con el avance de ARCA Aportes y SSSalud, y la planilla de resultados abierta al lado.">
-          </a>
-        </div>
-      </figure>
-    </section>
-
-    <section class="metodo" id="metodo">
-      <p class="eyebrow">Cómo funciona</p>
-      <h2>Método Dos Etapas</h2>
-      <p class="lede">Cuatro pasos, en ese orden. ARCA primero, y sólo los casos que esa etapa
-      habilita pasan a la etapa de cobertura.</p>
-
-      <div class="mecanismo">
-        <ol class="m-steps">
-          <li><span class="n">01</span><strong>ARCA</strong> — estado de los aportes
-          y relación de dependencia de toda la base.</li>
-          <li><span class="n">02</span><strong>Filtro</strong> — se identifican los casos
-          que quedan habilitados en esa primera etapa.</li>
-          <li><span class="n">03</span><strong>SSSalud</strong> — cobertura del afiliado
-          sólo para lo que hace falta consultar.</li>
-          <li><span class="n">04</span><strong>Tu planilla</strong> — los resultados se escriben
-          directamente en tu Google Sheets, listos para usar.</li>
-        </ol>
-          <p class="m-key">Sólo el chequeo de SSSalud consume cupo: el de aportes no
-        cuesta nada. Y lo que se descarta antes, tampoco.</p>
-        
-      </div>
-    </section>
-
-    <section class="pricing" id="precios">
-      <p class="eyebrow">Precios</p>
-
-      <div class="modulo-texto">
-      <h2>Elegí tu pack.</h2>
-      <p class="lede">Todos los packs traen el mismo sistema. <strong>Las verificaciones no vencen</strong>:
-      comprás las que necesitás y las usás a tu ritmo; cuando se te acaban, comprás otro pack.</p>
-      <p class="lede"><strong>Probalo antes de comprar.</strong> Descargá la demo gratuita y
-      procesá 20 casos reales, sin clave ni compromiso: está más abajo, en
-      <a href="#descargar">Descargar</a>.</p>
-    </div>
-
-      <div class="plans">
-        <div class="plan">
-          <p class="name">1.000 verificaciones</p>
-          <p class="price">$49.990</p>
-          <ul>
-            <li>Verificación completa: <strong>aportes y cobertura</strong></li>
-            <li>Tu propia <strong>planilla de Google Sheets</strong></li>
-            <li>Importador de Excel y planillas listas</li>
-            <li><strong>Panel de crédito</strong>: ves cuántas te quedan</li>
-            <li>Reintentos automáticos y resultados definitivos</li>
-          </ul>
-          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%201%2E000%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
-        </div>
-
-        <div class="plan featured">
-          <span class="tag">Más elegido</span>
-          <p class="name">2.500 verificaciones</p>
-          <p class="price">$99.990</p>
-          <ul>
-            <li>Verificación completa: <strong>aportes y cobertura</strong></li>
-            <li>Tu propia <strong>planilla de Google Sheets</strong></li>
-            <li>Importador de Excel y planillas listas</li>
-            <li><strong>Panel de crédito</strong>: ves cuántas te quedan</li>
-            <li>Reintentos automáticos y resultados definitivos</li>
-          </ul>
-          <a class="btn" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%202%2E500%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
-        </div>
-
-        <div class="plan">
-          <p class="name">5.000 verificaciones</p>
-          <p class="price">$179.990</p>
-          <ul>
-            <li>Verificación completa: <strong>aportes y cobertura</strong></li>
-            <li>Tu propia <strong>planilla de Google Sheets</strong></li>
-            <li>Importador de Excel y planillas listas</li>
-            <li><strong>Panel de crédito</strong>: ves cuántas te quedan</li>
-            <li>Reintentos automáticos y resultados definitivos</li>
-          </ul>
-          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%205%2E000%20verificaciones%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Comprar</a>
-        </div>
-
-        <div class="plan plan-wide">
-          <p class="name">¿Necesitás más de 10.000 verificaciones?</p>
-          <p class="unit">Te armamos un <strong>pack a medida</strong>.</p>
-          <a class="btn secondary" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20consultar%20por%20precios%20corporativos%20de%20AutoValidador%20Pro" target="_blank" rel="noopener">Consultar</a>
+<main id="top">
+  <!-- ══ HERO ══ -->
+  <div class="hero">
+    <img class="hero-foto" src="img/programa-en-notebook-1400.webp" alt="Notebook con AutoValidador Pro verificando aportes en ARCA, con el circuito hacia obra social, base de datos y planilla">
+    <div class="brillo" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-in">
+        <div class="copy">
+          <span class="kicker"><i></i> ARCA + SSSalud · sin captcha</span>
+          <h1>
+            <span class="l"><span>Dejá de perder</span></span>
+            <span class="l"><span>horas verificando</span></span>
+            <span class="l"><span><em>CUIL</em></span></span>
+          </h1>
+          <p class="sub">
+            AutoValidador Pro chequea <b>aportes en ARCA</b> y <b>cobertura en SSSalud</b> solo, sin captcha
+            ni tipeo, y escribe los resultados en una planilla de Google Sheets que te dejamos armada.
+          </p>
+          <div class="acciones">
+            <a class="btn btn-1" href="#descargar">Probar 20 casos gratis</a>
+            <a class="btn btn-2" href="#precios">Ver precios</a>
+          </div>
+          <div class="hechos">
+            <span>20 verificaciones sin clave</span>
+            <span>de 1.000 a 5.000 por pack</span>
+            <span>no vencen</span>
+          </div>
         </div>
       </div>
 
-      <p class="data-note">
-        <strong>Actualización de los datos:</strong> la información proviene de ARCA y de ANSES y
-        se actualiza según los plazos de publicación de cada organismo. Al momento del chequeo,
-        los datos pueden estar desactualizados.
-      </p>
-
-      <div class="como-paga">
-        <p class="cp-t">Cómo se paga</p>
-        <ol>
-          <li><span class="cp-n">1</span>
-            <div><strong>Comprás un pack.</strong> Incluye el sistema, el chequeo de aportes (ARCA) en
-            cada verificación y las verificaciones que elegiste. No hay nada más que contratar.</div></li>
-          <li><span class="cp-n">2</span>
-            <div><strong>Empezás a validar el mismo día.</strong> Instalás el sistema, entrás con tu
-            clave y corrés tu base. No hay puesta en marcha que esperar.</div></li>
-          <li><span class="cp-n">3</span>
-            <div><strong>Cuando se te acaban, comprás otro pack.</strong> Las verificaciones no vencen:
-            usás el pack a tu ritmo y volvés cuando lo necesitás.</div></li>
-        </ol>
-        <p class="cp-foot">Sin permanencia ni renovación automática: comprás cuando lo necesitás.
-        <strong>El pack es tuyo hasta que lo uses.</strong> Cuando el crédito se agota, el sistema se
-        detiene y te avisa. Pagás por verificar, no por el paso del tiempo.</p>
-      </div>
-
-      <div class="modulo-texto">
-      <h2>Implementación y acompañamiento</h2>
-      <p class="lede">Instalación remota, copia y configuración de tu plantilla en tu propia cuenta
-      de Google, carga de tu primera base y capacitación por videollamada. Incluye acompañamiento
-      los primeros 30 días.</p>
-      </div>
-
-      <div class="oferta">
-        <div class="o-card">
-          <p class="o-tag">Garantía</p>
-          <h4>Sólo llega a SSSalud lo que pasó el filtro</h4>
-        <p>El primer chequeo es el de aportes, y no consume cupo. Lo que esa etapa descarta no se
-        consulta en SSSalud: <strong>el cupo se gasta únicamente en los casos que pasaron el filtro de aportes</strong>.</p>
+      <div class="hud">
+        <div class="hud-izq">
+          <div class="hud-et">Verificaciones hechas</div>
+          <div class="hud-num"><span id="contHero">4.982</span> <small>/ 5.000</small></div>
+          <div class="barra"><i></i></div>
+          <div class="hud-vivo"><i></i>corriendo · tu base</div>
         </div>
-        <div class="o-card">
-          <p class="o-tag">Sin vencimiento</p>
-          <h4>Las verificaciones no vencen</h4>
-          <p><strong>Ninguna verificación vence</strong>, ni las del pack más grande:
-          quedan tuyas hasta que las uses. No hay que gastarlas dentro de ningún plazo.</p>
-        </div>
-        <div class="o-card">
-          <p class="o-tag">Vigencia</p>
-          <h4>Estos precios, hasta la revisión de diciembre</h4>
-          <p>La lista se revisa trimestralmente, atada al dólar. El pack que ya compraste
-          <strong>no cambia de precio</strong>: las verificaciones son tuyas.</p>
-        </div>
-      </div>
-
-      <p class="fineprint">Precios finales en pesos, vigentes a septiembre de 2026. Emitimos Factura C.
-      Se actualizan trimestralmente. Cada verificación incluye el chequeo en ARCA y, cuando
-      corresponde, el de SSSalud. Las verificaciones de los packs no vencen: se usan a tu ritmo y no hay que gastarlas dentro de ningún plazo. Cuando el crédito se agota, el sistema se detiene y avisa; vuelve a funcionar al comprar otro pack. Una misma clave puede usarse en varios equipos, que comparten ese crédito.
-      La información consultada es la publicada por ARCA y por ANSES, y se actualiza según los
-      plazos de cada organismo: puede estar desactualizada al momento del chequeo. AutoValidador Pro
-      no genera, no modifica ni corrige esos datos.</p>
-    </section>
-    <!-- =================== FIN PRECIOS =================== -->
-
-    <!-- ===================== DESCARGAS + DEMO ===================== -->
-    <section class="download" id="descargar">
-      <p class="eyebrow">Demo gratuita</p>
-      <h2>Descargalo y probalo con tus propios datos.</h2>
-      <p class="lede">Validá 20 casos contra ARCA con tus propios
-      datos: sin clave, sin tarjeta y sin hablar con nadie. Se instala en un minuto.</p>
-
-    <div class="downloads">
-      <div class="card" id="card-win">
-        <span class="detect-badge">Tu sistema</span>
-        <p class="os">Windows</p>
-        <p class="fmt">Instalador · .exe · Windows 10/11</p>
-        <!-- Link permanente: siempre entrega la última versión publicada -->
-        <a class="btn" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-Instalador.exe">Descargar para Windows</a>
-        <a class="link-light" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-Instalador-Liviano.exe">Versión liviana (descarga el navegador aparte)</a>
-      </div>
-
-      <div class="card" id="card-mac">
-        <span class="detect-badge">Tu sistema</span>
-        <p class="os">macOS</p>
-        <p class="fmt">Aplicación · .dmg · Apple Silicon (M1 o posterior)</p>
-        <!-- Link permanente: siempre entrega la última versión publicada -->
-        <a class="btn" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-mac.dmg">Descargar para macOS</a>
-        <a class="link-light" href="https://wa.me/5491162192904?text=Hola!%20Tengo%20una%20Mac%20con%20chip%20Intel%20y%20necesito%20AutoValidador%20Pro" target="_blank" rel="noopener">¿Tu Mac es Intel? Escribinos</a>
-      </div>
-    </div>
-
-    <p class="detect-line" id="detect-line" hidden></p>
-
-    <p class="wa-note">¿La descarga no te anda o preferís otro enlace?
-      <a href="https://wa.me/5491162192904?text=Hola!%20Necesito%20un%20enlace%20alternativo%20para%20descargar%20AutoValidador%20Pro" target="_blank" rel="noopener">Escribinos por WhatsApp</a>.</p>
-
-    <div class="steps">
-      <div class="step">
-        <span class="n">1</span>
-        <h2>Descargá</h2>
-        <p>Elegí la versión de tu equipo.</p>
-      </div>
-      <div class="step">
-        <span class="n">2</span>
-        <h2>Abrí el instalador</h2>
-        <p>Seguí los pasos; se instala solo.</p>
-      </div>
-      <div class="step">
-        <span class="n">3</span>
-        <h2>Configurá</h2>
-        <p>Seguí los pasos de esta <a href="guia-instalacion.pdf" target="_blank" rel="noopener">guía de instalación</a>.</p>
-      </div>
-    </div>
-
-
-    <div class="unit-note" id="demo">
-      <p class="un-title">¿Dudas, o se te acabaron las 20 de la demo?</p>
-      <p class="un-body">Escribinos por WhatsApp: te pasamos la clave para seguir sin límite, o te
-      armamos el presupuesto para tu cartera.</p>
-      <a class="btn whatsapp" href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20hacerles%20una%20consulta" target="_blank" rel="noopener">💬 Escribinos por WhatsApp</a>
-    </div>
-    </section>
-    <!-- ---------- Lo que ves en pantalla ---------- -->
-    <section class="pantalla">
-            <figure class="shot shot-sistema">
-        <figcaption class="s-tag">El sistema</figcaption>
-        <div class="s-box">
-          <a href="img/panel-sistema.png" target="_blank" rel="noopener"><img src="img/panel-sistema.png" width="880" height="851" loading="lazy"
-            alt="Panel de AutoValidador Pro: botones Iniciar y Detener Validación, crédito disponible, avance de ARCA Aportes y SSSalud, y el registro de actividad con cada fila resuelta."></a>
-        </div>
-        <p class="s-cap">Corre solo, en continuo. Ves cuántas verificaciones te quedan y el detalle de
-        cada fila a medida que se resuelve.</p>
-      </figure>
-
-      <figure class="shot shot-planilla">
-        <figcaption class="s-tag">Tu planilla</figcaption>
-        <div class="s-box">
-          <a href="img/planilla-resultados.png" target="_blank" rel="noopener"><img src="img/planilla-resultados.png" width="1739" height="711" loading="lazy"
-            alt="Planilla de Google Sheets con las columnas CUIL, teléfono, nombre, obra social, localidad, aportes y cobertura, con cada fila marcada en verde, rojo o amarillo según el resultado."></a>
-        </div>
-        <p class="s-cap">Todo queda en tu planilla. Aportes y cobertura de obra
-        social, con la fecha de cada chequeo.</p>
-      </figure>
-
-      <p class="s-nota">Capturas reales del sistema. Los datos personales de las filas están tapados.</p>
-    </section>
-    <!-- ---------- corte: acá empieza el detalle ---------- -->
-    <div class="detalle-corte">
-      <p class="eyebrow">Los detalles</p>
-      <h2>Todo lo demás, en detalle.</h2>
-      <p class="lede">Si ya viste qué hace, cuánto cuesta y podés probarlo, podés parar acá.
-      Si querés el sustento de cada número, seguí leyendo.</p>
-    </div>
-
-    <div class="m-diff m-diff-detalle">
-      <div>
-        <strong>No competimos por el dato.</strong>
-        Los datos son públicos y oficiales. Lo que se paga es el tiempo de conseguirlos.
-      </div>
-      <div>
-        <strong>Corre solo, en continuo.</strong>
-        Sin captcha, sin tipear y sin abrir el navegador: escribe el resultado en tu planilla.
-      </div>
-    </div>
-
-<section class="bloque" id="problema">
-      <p class="eyebrow">El problema</p>
-      <h2>El cuello de botella no es el dato. Es el trabajo de conseguirlo.</h2>
-      <p class="lede">ARCA y SSSalud publican la información y es oficial. El problema
-      aparece cuando el volumen crece: alguien del equipo tiene que entrar, tipear, esperar
-      el captcha, copiar y pegar, caso por caso.</p>
-
-      <div class="prob-grid">
-        <div class="prob-item">
-          <p class="p-t">No escala</p>
-          <h3>Crece en línea recta con tu volumen</h3>
-          <p>El doble de casos es el doble de horas. La única forma de procesar más es sumar
-          manos, y las manos se pagan todos los meses.</p>
-        </div>
-        <div class="prob-item">
-          <p class="p-t">Se corta</p>
-          <h3>Depende de una persona</h3>
-          <p>Vacaciones, licencia o rotación: si la persona que hace las consultas no está,
-          la operación se frena. Y el criterio se va con ella.</p>
-        </div>
-        <div class="prob-item">
-          <p class="p-t">Se paga dos veces</p>
-          <h3>Las horas salen del lado comercial</h3>
-          <p>Las horas que el equipo pasa verificando son horas que no está usando para
-          vender, presentar carpetas o atender afiliados.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="forwho">
-      <h2>¿Es para vos?</h2>
-      <div class="forwho-grid">
-        <div class="forwho-box yes">
-          <h3>Es para vos si…</h3>
-          <ul>
-            <li>Sos <strong>broker, asesor o supervisor de obras sociales</strong>.</li>
-            <li>Verificás aportes y cobertura de <strong>miles de casos por mes</strong>: para armar los aptos, cargar una base nueva o controlar una cartera.</li>
-            <li>Hoy lo hacés a mano en ARCA y SSSalud, <strong>de a un caso por vez y con captcha</strong>, y el trabajo se te acumula.</li>
-            <li>Tenés los datos en una <strong>planilla compartida</strong> y querés que el resultado caiga ahí, no en un sistema nuevo que hay que aprender.</li>
-          </ul>
-        </div>
-        <div class="forwho-box no">
-          <h3>No es para vos si…</h3>
-          <ul>
-            <li>Necesitás <strong>diez o veinte casos sueltos por mes</strong>: a mano te sale más barato, y te lo decimos igual.</li>
-            <li>Buscás un <strong>sistema de gestión médico</strong> (turnos, historia clínica, facturación): esto verifica y escribe en tu planilla, nada más.</li>
-            <li>Necesitás <strong>situación financiera o scoring</strong> de los afiliados: acá se mira aportes y cobertura de obra social.</li>
-            <li>Buscás datos que <strong>no estén publicados por ARCA o ANSES</strong>: acá se consulta lo que publican los organismos; no se genera, no se corrige ni se inventa.</li>
-          </ul>
-        </div>
-      </div>
-      <p class="who-foot">Y esto es lo que ya intentaste: un administrativo dedicado al tipeo cuesta
-      <strong>$737.399 por mes</strong>, y un informe comercial del mercado sale
-      <strong>$15.000 a $20.800 por consulta, con tope de 3.000 por mes</strong>.
-      La cuenta completa está más abajo, en <a href="#precios">precios</a>.</p>
-    </section>
-
-    <!-- ===================== MÉTODO ===================== -->
-    
-    <!-- =================== FIN MÉTODO =================== -->
-
-    <!-- ===================== PRECIOS ===================== -->
-
-    <section class="bloque" id="economia">
-      <p class="eyebrow">La cuenta</p>
-      <h2>Qué cuesta seguir haciéndolo a mano.</h2>
-      <p class="lede">Verificar 10.000 casos, en horas y en pesos, contra lo que cuesta
-      automatizarlo.</p>
-
-      <div class="why">
-        <h3>¿Por qué se paga solo?</h3>
-        <table>
-          <thead>
-            <tr><th>Verificar 10.000 casos</th><th>Costo</th></tr>
-          </thead>
+        <table class="filas">
+          <thead><tr><th>CUIL</th><th>Aportes · ARCA</th><th class="col-cob">Cobertura · SSSalud</th><th>Estado</th></tr></thead>
           <tbody>
-            <tr><td>A mano, caso por caso, en ARCA y SSSalud (con captcha)</td><td>167 a 500 horas de trabajo</td></tr>
-            <tr><td>Un administrativo dedicado a esa tarea</td><td>$737.399 / mes</td></tr>
-            <tr><td>Informe comercial del mercado con datos laborales</td><td>$15.000 a $20.800 por consulta, con tope de 3.000 por mes</td></tr>
-            <tr class="best"><td class="hl">AutoValidador Pro — pack de 10.000</td><td class="hl">$299.990 · 10.000 verificaciones</td></tr>
+            <tr class="f f1"><td>20-••••••-3</td><td>al día</td><td class="col-cob">activo</td><td class="ok">APTO</td></tr>
+            <tr class="f f2"><td>27-••••••-1</td><td>3 meses sin aportes</td><td class="col-cob ap">no se consulta</td><td class="no">NO APTO</td></tr>
+            <tr class="f f3"><td>23-••••••-8</td><td>al día</td><td class="col-cob">activo</td><td class="ok">APTO</td></tr>
+            <tr class="f f4"><td>24-••••••-5</td><td>al día</td><td class="col-cob">consultando…</td><td class="cur">EN CURSO</td></tr>
+            <tr class="f f5"><td>30-••••••-2</td><td>al día</td><td class="col-cob">baja</td><td class="ok">APTO</td></tr>
           </tbody>
         </table>
-        <p class="foot">El cálculo a mano considera 1 a 3 minutos por caso entre las fuentes,
-        a un costo horario de $4.609 a $6.222 (administrativo, agosto 2026).</p>
       </div>
-    </section>
-
-    <!-- =================== FIN DESCARGAS =================== -->
-
-
-    <footer>
-      <span>AutoValidador Pro</span>
-      <a class="footer-link" href="#precios">Precios</a>
-      <a class="footer-link" href="guia-instalacion.pdf" target="_blank" rel="noopener">📄 Guía de instalación y uso</a>
-      <a class="footer-link" href="terminos.html">Términos y condiciones</a>
-      <a class="footer-link" href="privacidad.html">Privacidad</a>
-      <a class="footer-link" href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20hacerles%20una%20consulta" target="_blank" rel="noopener">💬 Contacto</a>
-    </footer>
-
+    </div>
   </div>
 
+  <div class="franja beneficios">
+    <div class="franja-in">
+      <span>Lo que a mano son <b>167 a 500 horas</b>, corre solo.</span>
+      <span>Sin abrir el navegador · <b>sin tipear un CUIL</b></span>
+      <span>Todo cae en <b>tu Google Sheets</b></span>
+    </div>
+  </div>
+
+  <!-- ══ MÉTODO ══ -->
+  <section class="banda metodo" id="metodo">
+    <div class="wrap">
+      <h2 class="rev">El Método Dos Etapas</h2>
+      <p class="intro rev" data-d="1">Cuatro pasos, en ese orden. ARCA primero, y sólo los casos que esa etapa habilita pasan a la etapa de cobertura.</p>
+      <div class="pasos mecanismo rev" data-d="2">
+        <div class="paso"><span class="n">01 · ARCA</span><h3>Aportes</h3><p>Estado de los aportes y relación de dependencia de toda la base.</p></div>
+        <div class="paso"><span class="n">02 · Filtro</span><h3>Quedan los habilitados</h3><p>Se identifican los casos que quedan habilitados en la primera etapa.</p></div>
+        <div class="paso"><span class="n">03 · SSSalud</span><h3>Cobertura</h3><p>Cobertura del afiliado sólo para lo que hace falta consultar.</p></div>
+        <div class="paso"><span class="n">04 · Sheets</span><h3>Tu planilla</h3><p>Los resultados se escriben directo en tu planilla, listos para usar.</p></div>
+      </div>
+      <p class="nota rev" data-d="3">Sólo el chequeo de SSSalud consume cupo: <b>el de aportes no cuesta nada</b>. Y lo que se descarta antes, tampoco.</p>
+    </div>
+  </section>
+
+  <!-- ══ PRUEBA ══ -->
+  <section class="banda">
+    <div class="wrap">
+      <div class="prueba-cab">
+        <h2 class="rev">Lo que ves en pantalla es lo que aparece en tu planilla.</h2>
+        <ul class="limpia rev" data-d="1">
+          <li>Corre en tu equipo, en continuo.</li>
+          <li>Cada fila se escribe con su resultado y la fecha del chequeo.</li>
+          <li>Si trabajás en Excel, importás la planilla y seguís igual.</li>
+        </ul>
+      </div>
+      <figure class="rev prueba-fig" data-d="2">
+        <div class="marco"><img src="img/planilla-resultados.png" alt="Planilla de resultados: aportes, fecha de chequeo y obra social de cada fila"></div>
+        <figcaption>Captura real del sistema. Los datos personales de las filas están tapados.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ══ PRECIOS ══ -->
+  <section class="banda" id="precios">
+    <div class="wrap">
+      <div class="precios-cab">
+        <div>
+          <h2 class="rev">Elegí tu pack</h2>
+          <p class="intro rev" data-d="1">Todos los packs traen el mismo sistema. Las verificaciones <b>no vencen</b>: comprás las que necesitás y las usás a tu ritmo.</p>
+        </div>
+        <a class="btn btn-2 rev" data-d="2" href="#descargar">Probar 20 casos gratis</a>
+      </div>
+
+      <div class="packs oferta">
+        <article class="pack o-card rev" data-d="1">
+          <div class="pack-cant">Pack 01</div>
+          <h3>1.000 verificaciones</h3>
+          <div class="pack-precio"><span class="sig">$</span><span class="nro" data-fin="29999">29.999</span></div>
+          <div class="pack-para">Para probar con una base chica.</div>
+          <div class="pack-rule"></div>
+          <a class="btn btn-2" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%201%2E000%20verificaciones%20de%20AutoValidador%20Pro">Comprar</a>
+          <ul>
+            <li>Verificación completa: aportes y cobertura</li>
+            <li>Tu propia planilla de Google Sheets</li>
+            <li>Importador de Excel y planillas listas</li>
+            <li>Panel de crédito: ves cuántas te quedan</li>
+            <li>Reintentos automáticos y resultados definitivos</li>
+          </ul>
+        </article>
+
+        <article class="pack o-card destacado rev" data-d="2">
+          <div class="pack-tag">Más elegido</div>
+          <div class="pack-cant">Pack 02</div>
+          <h3>2.500 verificaciones</h3>
+          <div class="pack-precio"><span class="sig">$</span><span class="nro" data-fin="59990">59.990</span></div>
+          <div class="pack-para">Un asesor, un mes de trabajo.</div>
+          <div class="pack-rule"></div>
+          <a class="btn btn-1" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%202%2E500%20verificaciones%20de%20AutoValidador%20Pro">Comprar</a>
+          <ul>
+            <li>Verificación completa: aportes y cobertura</li>
+            <li>Tu propia planilla de Google Sheets</li>
+            <li>Importador de Excel y planillas listas</li>
+            <li>Panel de crédito: ves cuántas te quedan</li>
+            <li>Reintentos automáticos y resultados definitivos</li>
+          </ul>
+        </article>
+
+        <article class="pack o-card rev" data-d="3">
+          <div class="pack-cant">Pack 03</div>
+          <h3>5.000 verificaciones</h3>
+          <div class="pack-precio"><span class="sig">$</span><span class="nro" data-fin="107990">107.990</span></div>
+          <div class="pack-para">Asesor intensivo o equipo de dos.</div>
+          <div class="pack-rule"></div>
+          <a class="btn btn-2" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20comprar%20el%20pack%20de%205%2E000%20verificaciones%20de%20AutoValidador%20Pro">Comprar</a>
+          <ul>
+            <li>Verificación completa: aportes y cobertura</li>
+            <li>Tu propia planilla de Google Sheets</li>
+            <li>Importador de Excel y planillas listas</li>
+            <li>Panel de crédito: ves cuántas te quedan</li>
+            <li>Reintentos automáticos y resultados definitivos</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="a-medida rev" data-d="2">
+        <p><b>¿Necesitás más de 10.000 verificaciones?</b> Te armamos un pack a medida.</p>
+        <a class="btn btn-2 btn-chico" href="https://wa.me/5491162192904?text=Hola!%20Quiero%20consultar%20por%20precios%20corporativos%20de%20AutoValidador%20Pro">Consultar</a>
+      </div>
+
+      <p class="fuente rev" data-d="3">
+        Precios finales en pesos, vigentes a octubre de 2026. Emitimos Factura C. Se actualizan
+        trimestralmente y el pack ya comprado no cambia de precio. Cada verificación incluye el chequeo
+        en ARCA y, cuando corresponde, el de SSSalud. Una misma clave puede usarse en varios equipos,
+        que comparten ese crédito.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ DESCARGA / DEMO ══ -->
+  <section class="banda" id="demo">
+    <div class="wrap demo">
+      <div>
+        <h2 class="rev">Descargalo y probalo con tus propios datos.</h2>
+        <p class="intro rev" data-d="1">Validá <b>20 casos</b> contra ARCA sin clave, sin tarjeta y sin hablar con nadie. Se instala en un minuto.</p>
+        <div id="descargar">
+          <div class="downloads rev" data-d="2">
+            <a class="btn btn-1" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-Instalador.exe">Descargar para Windows</a>
+            <a class="btn btn-2" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-mac.dmg">Descargar para macOS</a>
+            <a class="link-light" href="https://github.com/medinetarg-creator/autovalidador-pro/releases/latest/download/AutoValidadorPro-Instalador-Liviano.exe">Versión liviana (descarga el navegador aparte)</a>
+          </div>
+          <p class="micro rev" data-d="3">Instalador <span class="mono">.exe</span> · Windows 10/11 · Aplicación <span class="mono">.dmg</span> · Apple Silicon</p>
+        </div>
+        <div class="pasos-min rev" data-d="4">
+          <span><b>1.</b> Descargá</span><span><b>2.</b> Abrí el instalador</span><span><b>3.</b> Seguí la <a class="link-light" href="guia-instalacion.pdf">guía de instalación</a></span>
+        </div>
+        <div class="demo-wa rev" data-d="5">
+          <p>Los pasos de la guía son los mismos que usamos nosotros para dejarlo andando.</p>
+          <a class="btn btn-2 whatsapp" href="https://wa.me/5491162192904?text=Hola!%20Tengo%20una%20Mac%20con%20chip%20Intel%20y%20necesito%20AutoValidador%20Pro">¿Tu Mac es Intel? Escribinos</a>
+        </div>
+      </div>
+      <figure class="rev" data-d="2">
+        <div class="marco"><img src="img/panel-sistema.png" alt="Panel de AutoValidador Pro con las verificaciones restantes y el detalle de cada fila"></div>
+        <figcaption>Capturas reales del sistema. Los datos personales de las filas están tapados.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ══ DETALLE ══ -->
+  <section class="banda detalle-corte">
+    <div class="wrap">
+      <h2 class="rev">Qué cuesta seguir haciéndolo a mano.</h2>
+      <p class="intro rev" data-d="1">Verificar 10.000 casos, en horas y en pesos, contra lo que cuesta automatizarlo.</p>
+      <table class="cuenta rev" data-d="2">
+        <tbody>
+          <tr><td>A mano, caso por caso, en ARCA y SSSalud (con captcha)</td><td>167 a 500 horas</td></tr>
+          <tr><td>Un administrativo dedicado a esa tarea</td><td>$737.399 / mes</td></tr>
+          <tr><td>Informe comercial del mercado con datos laborales</td><td>$15.000 a $20.800 / consulta</td></tr>
+          <tr class="destaca"><td>AutoValidador Pro — pack de 10.000</td><td>$179.990</td></tr>
+        </tbody>
+      </table>
+      <p class="fuente rev" data-d="3">El cálculo a mano considera 1 a 3 minutos por caso entre las fuentes, a un costo horario de $4.609 a $6.222 (administrativo, agosto 2026). El pack de 10.000 se cotiza a medida.</p>
+    </div>
+  </section>
+
+  <section class="banda">
+    <div class="wrap">
+      <h2 class="rev">Todo lo demás, en detalle</h2>
+      <div class="faq rev" data-d="1">
+        <details>
+          <summary>Sólo llega a SSSalud lo que pasó el filtro</summary>
+          <p>El primer chequeo es el de aportes, y no consume cupo. Lo que esa etapa descarta no se consulta en SSSalud: el cupo se gasta únicamente en los casos que pasaron el filtro de aportes.</p>
+        </details>
+        <details>
+          <summary>Las verificaciones no vencen</summary>
+          <p>Ninguna verificación vence, ni las del pack más grande: quedan tuyas hasta que las uses. No hay que gastarlas dentro de ningún plazo, y no hay permanencia ni renovación automática.</p>
+        </details>
+        <details>
+          <summary>Cómo se paga y cuándo empieza a funcionar</summary>
+          <p>Comprás un pack, que incluye el sistema, el chequeo de aportes en cada verificación y las verificaciones que elegiste. Empezás a validar el mismo día: instalás, entrás con tu clave y corrés tu base. Cuando el crédito se agota, el sistema se detiene y te avisa; vuelve a funcionar al comprar otro pack.</p>
+        </details>
+        <details>
+          <summary>Actualización de los datos</summary>
+          <p>La información proviene de ARCA y de ANSES y se actualiza según los plazos de publicación de cada organismo. Al momento del chequeo, los datos pueden estar desactualizados. AutoValidador Pro no genera, no modifica ni corrige esos datos.</p>
+        </details>
+        <details>
+          <summary>Implementación y acompañamiento</summary>
+          <p>Instalación remota, copia y configuración de tu plantilla en tu propia cuenta de Google, carga de tu primera base y capacitación por videollamada. Incluye acompañamiento los primeros 30 días.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PARA VOS ══ -->
+  <section class="banda forwho">
+    <div class="wrap">
+      <h2 class="rev">¿Es para vos?</h2>
+      <div class="filtro">
+        <div class="si rev" data-d="1">
+          <h3>Sí, si…</h3>
+          <ul>
+            <li>Sos <b>broker, asesor o supervisor de obras sociales</b>.</li>
+            <li>Verificás aportes y cobertura de <b>miles de casos por mes</b>.</li>
+            <li>Hoy lo hacés <b>a mano, de a un caso y con captcha</b>.</li>
+            <li>Querés el resultado en <b>tu planilla compartida</b>, no en un sistema nuevo.</li>
+          </ul>
+        </div>
+        <div class="no rev" data-d="2">
+          <h3>No, si…</h3>
+          <ul>
+            <li>Necesitás <b>diez o veinte casos sueltos por mes</b>: a mano te sale más barato, y te lo decimos igual.</li>
+            <li>Buscás un <b>sistema de gestión médico</b> (turnos, historia clínica, facturación).</li>
+            <li>Necesitás <b>situación financiera o scoring</b> de los afiliados.</li>
+            <li>Buscás datos que <b>no estén publicados por ARCA o ANSES</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CIERRE ══ -->
+  <div class="cierre">
+    <div class="wrap cierre-in">
+      <div class="cierre-grid">
+        <div class="cierre-txt">
+          <h2 class="rev">20 casos, tus datos, sin hablar con nadie.</h2>
+          <p class="rev" data-d="1">Descargá la demo y procesá 20 casos reales contra ARCA. Sin clave, sin tarjeta y sin compromiso.</p>
+          <div class="acciones rev" data-d="2">
+            <a class="btn btn-1" href="#descargar">Descargar la demo</a>
+            <a class="btn btn-2" href="#precios">Ver precios</a>
+          </div>
+          <p class="rev" data-d="3" style="margin-top:18px;font-size:14px">
+            <a class="link-light" href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20hacerles%20una%20consulta">💬 Escribinos por WhatsApp</a>
+          </p>
+        </div>
+        <figure class="cierre-fig rev" data-d="2">
+          <img src="img/diseno-escritorio.jpg" alt="AutoValidador Pro corriendo en una notebook sobre el escritorio de trabajo">
+        </figure>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="pie">
+      <div><strong style="color:#EDF4F8">AutoValidador Pro</strong></div>
+      <div>
+        <a href="#precios">Precios</a>
+        <a href="#descargar">Descargar</a>
+        <a href="guia-instalacion.pdf">📄 Guía de instalación y uso</a>
+        <a href="terminos.html">Términos y condiciones</a>
+        <a href="privacidad.html">Privacidad</a>
+        <a href="https://wa.me/5491162192904?text=Hola%21%20Vi%20AutoValidador%20Pro%20en%20la%20web%20y%20quer%C3%ADa%20hacerles%20una%20consulta">💬 Contacto</a>
+      </div>
+    </div>
+    <p class="legal">
+      La información consultada es la publicada por ARCA y por ANSES, y se actualiza según los plazos de
+      cada organismo: puede estar desactualizada al momento del chequeo. AutoValidador Pro no genera, no
+      modifica ni corrige esos datos. Las verificaciones de los packs no vencen. Una misma clave puede usarse
+      en varios equipos, que comparten ese crédito.
+    </p>
+  </div>
+</footer>
+
 <script>
-  (function () {
-    var ua = navigator.userAgent;
-    var isWin = /Windows/i.test(ua);
-    var isMac = /Macintosh|Mac OS X/i.test(ua);
+(function(){
+  var quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nav = document.getElementById('nav');
+  addEventListener('scroll', function(){ nav.classList.toggle('fijo', scrollY > 40); }, {passive:true});
 
-    var cardWin = document.getElementById('card-win');
-    var cardMac = document.getElementById('card-mac');
-    var line = document.getElementById('detect-line');
-
-    if (isWin) {
-      cardWin.classList.add('is-detected');
-      line.hidden = false;
-      line.innerHTML = 'Tu equipo: <strong>Windows</strong> — te recomendamos esa descarga.';
-    } else if (isMac) {
-      cardMac.classList.add('is-detected');
-      line.hidden = false;
-      line.innerHTML = 'Tu equipo: <strong>macOS</strong> — te recomendamos esa descarga.';
-    }
-    // Si no se detecta (o es otro sistema), ambas opciones quedan visibles.
-  })();
+  /* count-up con setInterval: requestAnimationFrame no corre en pestanas sin foco
+     ni en headless, y dejaba los montos en cero. */
+  function cuenta(el){
+    if (el.dataset.hecho) return;
+    el.dataset.hecho = '1';
+    var fin = parseInt(el.dataset.fin, 10);
+    if (quieto || isNaN(fin)) { el.textContent = (fin||0).toLocaleString('es-AR'); return; }
+    var t0 = Date.now(), dur = 1400;
+    var reloj = setInterval(function(){
+      var p = Math.min((Date.now()-t0)/dur, 1);
+      var e = 1 - Math.pow(1-p, 3);
+      el.textContent = Math.round(fin*e).toLocaleString('es-AR');
+      if (p >= 1) clearInterval(reloj);
+    }, 30);
+  }
+  function mostrar(el){
+    el.classList.add('in');
+    el.querySelectorAll('.nro').forEach(cuenta);
+  }
+  var todos = document.querySelectorAll('.rev, .pasos, .pack');
+  if ('IntersectionObserver' in window && !quieto){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(!e.isIntersecting) return; mostrar(e.target); io.unobserve(e.target); });
+    }, {threshold:.14, rootMargin:'0px 0px -8% 0px'});
+    todos.forEach(function(el){ io.observe(el); });
+    /* red de seguridad: si el observer no disparo nada, no dejamos la pagina vacia */
+    setTimeout(function(){
+      if (document.querySelector('.rev.in')) return;
+      todos.forEach(mostrar);
+    }, 2500);
+  } else {
+    todos.forEach(mostrar);
+  }
+  /* montos finales si el contador no llego a correr */
+  addEventListener('load', function(){
+    setTimeout(function(){
+      document.querySelectorAll('.nro').forEach(function(el){
+        if (!el.dataset.hecho) el.textContent = parseInt(el.dataset.fin,10).toLocaleString('es-AR');
+      });
+    }, 6000);
+  });
+})();
 </script>
 </body>
 </html>
